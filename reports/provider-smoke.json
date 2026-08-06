@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "provider_backed",
+  "ok": true,
+  "executed_at": "2026-08-06",
+  "provider": "self-hosted Coolify v1 REST API",
+  "instance_origin": "https://coolify.example.com",
+  "source": {
+    "mode": "inline Dockerfile",
+    "workspace": "/tmp/jong-coolify-smoke-<random>",
+    "secret_values_recorded": false
+  },
+  "resource": {
+    "project": "example-project",
+    "environment": "production",
+    "application_name": "jong-coolify-smoke-<timestamp>",
+    "application_uuid": "APPLICATION_UUID",
+    "deployment_uuid": "DEPLOYMENT_UUID",
+    "deployment_status": "finished"
+  },
+  "public_verification": {
+    "url": "https://smoke.example.com",
+    "tls_verified": true,
+    "http_redirect_status": 302,
+    "root_status": 200,
+    "deep_route_status": 200,
+    "health_status": 200,
+    "health_body_matches": true,
+    "logs_checked": true
+  },
+  "cleanup": {
+    "requested": true,
+    "application_deleted_by_exact_uuid": true
+  },
+  "limitations": [
+    "The provider smoke covers the REST API Dockerfile application path.",
+    "Private GitHub App repository creation is covered by unit tests and API contract only.",
+    "Docker Compose Service deployment is not provider-tested.",
+    "Human blind review is missing evidence."
+  ]
+}

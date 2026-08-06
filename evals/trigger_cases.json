@@ -1,0 +1,174 @@
+{
+  "recommended_threshold": 0.34,
+  "description_required_concepts": [
+    "coolify",
+    "local_repo",
+    "deployment_action",
+    "self_hosted"
+  ],
+  "positive_concepts": {
+    "coolify": [
+      "coolify",
+      "Coolify",
+      "自托管 PaaS"
+    ],
+    "local_repo": [
+      "local repo",
+      "local repository",
+      "current project",
+      "current repo",
+      "本地仓库",
+      "当前仓库",
+      "当前项目",
+      "这个项目"
+    ],
+    "deployment_action": [
+      "deploy",
+      "publish",
+      "ship",
+      "release",
+      "部署",
+      "发布",
+      "上线",
+      "一键部署",
+      "改造后部署"
+    ],
+    "self_hosted": [
+      "self-hosted",
+      "own VPS",
+      "my server",
+      "private server",
+      "自有 VPS",
+      "自己的 VPS",
+      "我的服务器",
+      "自托管服务器"
+    ],
+    "delivery_details": [
+      "domain",
+      "GitHub",
+      "Dockerfile",
+      "Docker Compose",
+      "environment variables",
+      "health check",
+      "域名",
+      "环境变量",
+      "健康检查"
+    ]
+  },
+  "negative_patterns": [
+    "vercel",
+    "Cloudflare Pages",
+    "wrangler pages",
+    "只解释 DNS",
+    "解释一下 DNS",
+    "本地 docker 跑一下",
+    "只看日志",
+    "只重启",
+    "不要部署",
+    "先不要上线",
+    "暂时不执行",
+    "release notes",
+    "发布说明",
+    "新闻摘要",
+    "规划未来",
+    "generic ssh"
+  ],
+  "should_trigger": [
+    {
+      "text": "把当前项目部署到我的 Coolify，域名用 risk.example.com。",
+      "family": "cn_current_project_domain"
+    },
+    {
+      "text": "把这个本地仓库改造成可部署版本，然后发布到自有 VPS 上的 Coolify。",
+      "family": "cn_prepare_and_deploy"
+    },
+    {
+      "text": "用 Coolify 把这个 Docker Compose 项目一键上线到我的服务器。",
+      "family": "cn_compose_service"
+    },
+    {
+      "text": "本地还没有 remote，创建私有 GitHub 仓库并部署到 Coolify。",
+      "family": "cn_create_private_repo"
+    },
+    {
+      "text": "把前端应用发布到我的 Coolify VPS，配置健康检查和 HTTPS 域名。",
+      "family": "cn_frontend_health_https"
+    },
+    {
+      "text": "部署这个多容器项目，环境变量要能在 Coolify 前端编辑，数据卷要保留。",
+      "family": "cn_env_persistence"
+    },
+    {
+      "text": "Deploy the current local repository to my self-hosted Coolify VPS and bind app.example.com.",
+      "family": "en_current_repo"
+    },
+    {
+      "text": "Create a private GitHub repo for this project, ship it to Coolify, and verify HTTPS and the health endpoint.",
+      "family": "en_source_to_runtime"
+    },
+    {
+      "text": "Convert this compose stack into a Coolify Service and deploy it to my own server.",
+      "family": "en_compose_service"
+    },
+    {
+      "text": "Publish this app end to end: local checks, GitHub, Coolify, DNS, TLS, and deployment logs.",
+      "family": "en_full_delivery"
+    }
+  ],
+  "should_not_trigger": [
+    {
+      "text": "把这个网站部署到 Vercel 并绑定 Cloudflare 域名。",
+      "family": "vercel_delivery"
+    },
+    {
+      "text": "解释一下 Coolify 和 Dokploy 的区别，不要部署。",
+      "family": "explanation_only"
+    },
+    {
+      "text": "用 SSH 给一台裸 VPS 安装 Docker 和 Nginx，不使用 Coolify。",
+      "family": "generic_vps_provisioning"
+    },
+    {
+      "text": "只告诉我 A 记录和 CNAME 有什么区别。",
+      "family": "dns_education"
+    },
+    {
+      "text": "在本机执行 docker compose up，先不要上线。",
+      "family": "local_only"
+    },
+    {
+      "text": "帮我写一个 Dockerfile，但暂时不要部署。",
+      "family": "deployment_config_only"
+    },
+    {
+      "text": "Summarize the latest Coolify release notes.",
+      "family": "news_summary"
+    },
+    {
+      "text": "Design a generic CI/CD architecture for Kubernetes.",
+      "family": "architecture_only"
+    }
+  ],
+  "near_neighbor": [
+    {
+      "text": "检查一下 Coolify 里有哪些应用，只读不要修改。",
+      "family": "coolify_inventory"
+    },
+    {
+      "text": "为什么 Coolify 上的 postgres 不健康？只诊断原因。",
+      "family": "coolify_diagnosis"
+    },
+    {
+      "text": "重启 Coolify 上的 staging API。",
+      "family": "routine_restart"
+    },
+    {
+      "text": "把现有 docker-compose.yml 转成 Coolify 模板，但不要部署。",
+      "family": "compose_conversion_only"
+    },
+    {
+      "text": "给这个项目规划未来的发布流程，暂时不执行。",
+      "family": "deployment_planning"
+    }
+  ]
+}

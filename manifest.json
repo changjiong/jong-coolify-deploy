@@ -1,0 +1,48 @@
+{
+  "name": "jong-coolify-deploy",
+  "version": "0.2.0",
+  "owner": "Jong",
+  "updated_at": "2026-08-06",
+  "status": "experimental",
+  "maturity_tier": "governed",
+  "lifecycle_stage": "production",
+  "context_budget_tier": "production",
+  "review_cadence": "monthly",
+  "upstream_inspiration": [
+    "https://github.com/joeseesun/qiaomu-website-develop",
+    "local:coolify-deploy",
+    "https://coolify.io/docs/api-reference/api",
+    "https://github.com/StuMason/coolify-mcp",
+    "https://github.com/joshuadavidthomas/agent-skills/tree/main/coolify-compose"
+  ],
+  "target_platforms": [
+    "openai",
+    "claude",
+    "generic",
+    "agent-skills-compatible"
+  ],
+  "components": [
+    "SKILL.md",
+    "README.md",
+    "agents/interface.yaml",
+    "references",
+    "scripts",
+    "evals",
+    "tests",
+    "reports"
+  ],
+  "release_gates": [
+    "root_entrypoint_isolation",
+    "prior_art_research",
+    "validate_skill",
+    "trigger_eval",
+    "unit_tests",
+    "skill_ir",
+    "secret_scan",
+    "trust_boundary",
+    "rollback_boundary",
+    "evidence_bound_claims",
+    "provider_smoke",
+    "install_check_or_missing_evidence"
+  ]
+}

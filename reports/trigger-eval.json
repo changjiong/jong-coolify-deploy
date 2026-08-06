@@ -1,0 +1,331 @@
+{
+  "ok": true,
+  "threshold": 0.34,
+  "description_concepts": [
+    "coolify",
+    "delivery_details",
+    "deployment_action",
+    "local_repo",
+    "self_hosted"
+  ],
+  "missing_description_concepts": [],
+  "summary": {
+    "total": 23,
+    "passed": 23,
+    "false_positive": 0,
+    "false_negative": 0,
+    "pass_rate": 1.0
+  },
+  "failures": [],
+  "results": {
+    "should_trigger": [
+      {
+        "prompt": "把当前项目部署到我的 Coolify，域名用 risk.example.com。",
+        "family": "cn_current_project_domain",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.8,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action",
+          "local_repo"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "把这个本地仓库改造成可部署版本，然后发布到自有 VPS 上的 Coolify。",
+        "family": "cn_prepare_and_deploy",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.8,
+        "matched_concepts": [
+          "coolify",
+          "deployment_action",
+          "local_repo",
+          "self_hosted"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "用 Coolify 把这个 Docker Compose 项目一键上线到我的服务器。",
+        "family": "cn_compose_service",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.8,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action",
+          "self_hosted"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "本地还没有 remote，创建私有 GitHub 仓库并部署到 Coolify。",
+        "family": "cn_create_private_repo",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "把前端应用发布到我的 Coolify VPS，配置健康检查和 HTTPS 域名。",
+        "family": "cn_frontend_health_https",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "部署这个多容器项目，环境变量要能在 Coolify 前端编辑，数据卷要保留。",
+        "family": "cn_env_persistence",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "Deploy the current local repository to my self-hosted Coolify VPS and bind app.example.com.",
+        "family": "en_current_repo",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.8,
+        "matched_concepts": [
+          "coolify",
+          "deployment_action",
+          "local_repo",
+          "self_hosted"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "Create a private GitHub repo for this project, ship it to Coolify, and verify HTTPS and the health endpoint.",
+        "family": "en_source_to_runtime",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "Convert this compose stack into a Coolify Service and deploy it to my own server.",
+        "family": "en_compose_service",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "coolify",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "Publish this app end to end: local checks, GitHub, Coolify, DNS, TLS, and deployment logs.",
+        "family": "en_full_delivery",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      }
+    ],
+    "should_not_trigger": [
+      {
+        "prompt": "把这个网站部署到 Vercel 并绑定 Cloudflare 域名。",
+        "family": "vercel_delivery",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": "vercel"
+      },
+      {
+        "prompt": "解释一下 Coolify 和 Dokploy 的区别，不要部署。",
+        "family": "explanation_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "coolify",
+          "deployment_action"
+        ],
+        "negative_pattern": "不要部署"
+      },
+      {
+        "prompt": "用 SSH 给一台裸 VPS 安装 Docker 和 Nginx，不使用 Coolify。",
+        "family": "generic_vps_provisioning",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.2,
+        "matched_concepts": [
+          "coolify"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "只告诉我 A 记录和 CNAME 有什么区别。",
+        "family": "dns_education",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.0,
+        "matched_concepts": [],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "在本机执行 docker compose up，先不要上线。",
+        "family": "local_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": "先不要上线"
+      },
+      {
+        "prompt": "帮我写一个 Dockerfile，但暂时不要部署。",
+        "family": "deployment_config_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": "不要部署"
+      },
+      {
+        "prompt": "Summarize the latest Coolify release notes.",
+        "family": "news_summary",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "coolify",
+          "deployment_action"
+        ],
+        "negative_pattern": "release notes"
+      },
+      {
+        "prompt": "Design a generic CI/CD architecture for Kubernetes.",
+        "family": "architecture_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.0,
+        "matched_concepts": [],
+        "negative_pattern": null
+      }
+    ],
+    "near_neighbor": [
+      {
+        "prompt": "检查一下 Coolify 里有哪些应用，只读不要修改。",
+        "family": "coolify_inventory",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.2,
+        "matched_concepts": [
+          "coolify"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "为什么 Coolify 上的 postgres 不健康？只诊断原因。",
+        "family": "coolify_diagnosis",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.2,
+        "matched_concepts": [
+          "coolify"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "重启 Coolify 上的 staging API。",
+        "family": "routine_restart",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.2,
+        "matched_concepts": [
+          "coolify"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "把现有 docker-compose.yml 转成 Coolify 模板，但不要部署。",
+        "family": "compose_conversion_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": "不要部署"
+      },
+      {
+        "prompt": "给这个项目规划未来的发布流程，暂时不执行。",
+        "family": "deployment_planning",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "deployment_action",
+          "local_repo"
+        ],
+        "negative_pattern": "暂时不执行"
+      }
+    ]
+  }
+}

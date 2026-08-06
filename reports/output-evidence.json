@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "evidence_kind": "provider_backed",
+  "ok": true,
+  "evidence": [
+    {
+      "name": "coolify_rest_dockerfile_smoke",
+      "report": "reports/provider-smoke.json",
+      "deployment_status": "finished",
+      "tls_verified": true,
+      "root_status": 200,
+      "deep_route_status": 200,
+      "health_status": 200,
+      "logs_checked": true,
+      "cleanup_verified": true
+    }
+  ],
+  "fixtures": [
+    "evals/output_cases.json"
+  ],
+  "missing_evidence": [
+    "provider-backed private GitHub App repository deployment",
+    "provider-backed Docker Compose Service deployment",
+    "human blind review",
+    "production adoption telemetry",
+    "public release and isolated external install"
+  ],
+  "claim_boundary": "Provider evidence proves the self-hosted Coolify REST Dockerfile path, terminal deployment polling, logs, TLS, routes, health, and exact-UUID cleanup. It does not prove every source or Service path."
+}
