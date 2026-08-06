@@ -2,7 +2,7 @@
 
 ## Result
 
-- Skill: `jong-coolify-deploy` `0.2.0`
+- Skill: `jong-coolify-deploy` `0.2.1`
 - Job: deploy a local Git repository end to end to a verified URL on a self-hosted Coolify VPS
 - Local path: redacted from the public package
 - Publication status: prepared for `changjiong/jong-coolify-deploy`

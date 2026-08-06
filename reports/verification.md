@@ -5,7 +5,8 @@ Date: `2026-08-06`
 ## Local
 
 - Python compilation: passed for all bundled scripts.
-- Unit tests: 12 passed.
+- Unit tests: 14 passed.
+- Codex credential reuse: passed against the existing `mcp_servers.coolify.env` configuration without exporting additional environment variables.
 - Trigger evaluation: 23/23 passed, 0 false positives, 0 false negatives.
 - Package validation: passed with no warnings.
 - Secret scan: passed with no findings.
