@@ -1,0 +1,165 @@
+{
+  "schema_version": "2.0.0-qiaomu-lite",
+  "generated_at": "2026-08-06",
+  "package": {
+    "name": "jong-coolify-deploy",
+    "version": "0.2.0",
+    "owner": "Jong",
+    "maturity_tier": "governed",
+    "lifecycle_stage": "production",
+    "upstream_inspiration": [
+      "https://github.com/joeseesun/qiaomu-website-develop",
+      "local:coolify-deploy",
+      "https://coolify.io/docs/api-reference/api",
+      "https://github.com/StuMason/coolify-mcp",
+      "https://github.com/joshuadavidthomas/agent-skills/tree/main/coolify-compose"
+    ],
+    "upstream_sync": {}
+  },
+  "intent": {
+    "description": "Deploy a local Git repository end to end to a self-hosted VPS managed by Coolify. Use when the user asks to deploy or publish the current or named local project to their own Coolify server, perform a one-click local repo -> private GitHub -> Coolify VPS delivery, choose Application versus Docker Compose Service, expose editable environment variables, configure domains and Traefik reachability, persistence and health checks, trigger deployment, and verify HTTPS, logs, and runtime status. Also trigger for Chinese requests such as “把当前项目部署到 Coolify”, “发布到自有 VPS”, “用这个域名一键部署”, or “改造后部署到我的服务器”. Do not use for Vercel or Cloudflare Pages delivery, generic SSH-only VPS provisioning without Coolify, pure DNS explanations, local-only Docker runs, or routine restart/log inspection without a deployment objective.",
+    "job_to_be_done": "Deploy a local Git repository end to end to a self-hosted VPS managed by Coolify. Use when the user asks to deploy or publish the current or named local project to their own Coolify server, perform a one-click local repo -> private GitHub -> Coolify VPS delivery, choose Application versus Docker Compose Service, expose editable environment variables, configure domains and Traefik reachability, persistence and health checks, trigger deployment, and verify HTTPS, logs, and runtime status. Also trigger for Chinese requests such as “把当前项目部署到 Coolify”, “发布到自有 VPS”, “用这个域名一键部署”, or “改造后部署到我的服务器”. Do not use for Vercel or Cloudflare Pages delivery, generic SSH-only VPS provisioning without Coolify, pure DNS explanations, local-only Docker runs, or routine restart/log inspection without a deployment objective.",
+    "target_users": [
+      "Qiaomu operator"
+    ],
+    "inputs": [],
+    "outputs": [],
+    "exclusions": [],
+    "qiaomu_defaults": {}
+  },
+  "triggers": {
+    "should_trigger": [
+      "把当前项目部署到我的 Coolify，域名用 risk.example.com。",
+      "把这个本地仓库改造成可部署版本，然后发布到自有 VPS 上的 Coolify。",
+      "用 Coolify 把这个 Docker Compose 项目一键上线到我的服务器。",
+      "本地还没有 remote，创建私有 GitHub 仓库并部署到 Coolify。",
+      "把前端应用发布到我的 Coolify VPS，配置健康检查和 HTTPS 域名。",
+      "部署这个多容器项目，环境变量要能在 Coolify 前端编辑，数据卷要保留。",
+      "Deploy the current local repository to my self-hosted Coolify VPS and bind app.example.com.",
+      "Create a private GitHub repo for this project, ship it to Coolify, and verify HTTPS and the health endpoint.",
+      "Convert this compose stack into a Coolify Service and deploy it to my own server.",
+      "Publish this app end to end: local checks, GitHub, Coolify, DNS, TLS, and deployment logs."
+    ],
+    "should_not_trigger": [
+      "把这个网站部署到 Vercel 并绑定 Cloudflare 域名。",
+      "解释一下 Coolify 和 Dokploy 的区别，不要部署。",
+      "用 SSH 给一台裸 VPS 安装 Docker 和 Nginx，不使用 Coolify。",
+      "只告诉我 A 记录和 CNAME 有什么区别。",
+      "在本机执行 docker compose up，先不要上线。",
+      "帮我写一个 Dockerfile，但暂时不要部署。",
+      "Summarize the latest Coolify release notes.",
+      "Design a generic CI/CD architecture for Kubernetes."
+    ],
+    "near_neighbor": [
+      "检查一下 Coolify 里有哪些应用，只读不要修改。",
+      "为什么 Coolify 上的 postgres 不健康？只诊断原因。",
+      "重启 Coolify 上的 staging API。",
+      "把现有 docker-compose.yml 转成 Coolify 模板，但不要部署。",
+      "给这个项目规划未来的发布流程，暂时不执行。"
+    ]
+  },
+  "workflow": {
+    "router_rules": [],
+    "compact_workflow": [],
+    "gate_ladder": [],
+    "output_contract": [
+      "public URL and final runtime status",
+      "GitHub repository, branch, and deployed commit",
+      "Coolify project/environment/resource name and short UUID",
+      "environment-variable keys changed, with values masked",
+      "persistence and backup implications",
+      "DNS/TLS, health, logs, and route verification results",
+      "rollback boundary and any `missing evidence`"
+    ]
+  },
+  "resources": {
+    "references": [
+      "references/coolify-api-routing.md",
+      "references/deployment-workflow.md",
+      "references/safety-rollback.md"
+    ],
+    "scripts": [
+      "scripts/coolify_api.py",
+      "scripts/inspect_project.py",
+      "scripts/smoke_deploy.py",
+      "scripts/verify_deployment.py"
+    ],
+    "evals": [
+      "evals/output_cases.json",
+      "evals/trigger_cases.json"
+    ],
+    "reports": [
+      "reports/creation-handoff.md",
+      "reports/output-evidence.json",
+      "reports/prior-art-candidates.json",
+      "reports/prior-art-research.md",
+      "reports/provider-smoke.json",
+      "reports/skill-ir.json",
+      "reports/trigger-eval.json",
+      "reports/verification.md"
+    ]
+  },
+  "portability": {
+    "canonical_format": "agent-skills",
+    "adapter_targets": [
+      "openai",
+      "claude",
+      "generic",
+      "agent-skills-compatible"
+    ],
+    "activation": {
+      "mode": "manual",
+      "paths": []
+    },
+    "execution": {
+      "context": "inline",
+      "shell": "bash"
+    },
+    "trust": {
+      "source_tier": "local",
+      "remote_inline_execution": "forbid",
+      "remote_metadata_policy": "allow read-only GitHub and Coolify inspection before scoped writes",
+      "generated_public_claims": "evidence-bound"
+    },
+    "permissions": {
+      "network": "GitHub, configured Coolify instance, target application domains, and optional DNS provider",
+      "file_write": "deployment-related files in the target repository and this skill package only",
+      "subprocess": "git, gh, repository-defined quality commands, bundled API, inspection, smoke, and verification scripts",
+      "remote_write": "project-scoped GitHub/Coolify/DNS writes required by an explicit deployment request",
+      "interactive": "only when authentication or a destructive-conflict decision requires the user"
+    },
+    "degradation": {
+      "api_unavailable": "stop remote writes, report the Coolify API health or authentication blocker, and keep local inspection results",
+      "mcp_unavailable": "continue through the Coolify REST API when it is healthy; MCP is optional",
+      "dns_write_unavailable": "deploy the resource and report the exact DNS record required",
+      "github_write_unavailable": "stop before source publication and report the authentication blocker",
+      "provider_evidence_unavailable": "label runtime claims as missing evidence"
+    }
+  },
+  "gates": {
+    "local": [
+      "inspect project and unrelated changes",
+      "run relevant repository-defined test/lint/typecheck/build commands",
+      "scan tracked filenames for likely secrets"
+    ],
+    "remote": [
+      "Coolify REST API health",
+      "exact server/project/environment/resource identity",
+      "masked environment-variable handling",
+      "explicit persistence and healthcheck decision"
+    ],
+    "completion": [
+      "terminal deployment status",
+      "deployment logs checked",
+      "DNS and TLS verified",
+      "health and representative routes verified",
+      "rollback boundary reported"
+    ]
+  },
+  "evidence_boundary": {
+    "generated_reports_are_evidence": true,
+    "planned_work_is_evidence": false,
+    "missing_external_or_human_evidence_label": "missing evidence",
+    "public_claim_policy": "claim only what local validation, install proof, human review, or provider-backed evidence actually supports"
+  }
+}
