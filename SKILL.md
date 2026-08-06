@@ -40,6 +40,7 @@ Route elsewhere for Vercel/Cloudflare Pages, generic VPS provisioning, pure DNS 
 ## Safety
 
 - Use the bundled Coolify REST client against the user's own instance domain. Coolify MCP is an optional typed adapter, not a dependency.
+- In Codex, reuse `mcp_servers.coolify.env` from `~/.codex/config.toml` when explicit environment variables are absent. Never reveal or copy those values.
 - Never silently downgrade an unavailable API to SSH or direct Docker mutations on the VPS.
 - Never expose tokens, passwords, private keys, DSNs, or revealed environment-variable values.
 - Never delete applications, services, databases, volumes, DNS records, or Git history without explicit approval.

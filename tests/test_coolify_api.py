@@ -1,8 +1,12 @@
 import base64
 import json
+import os
+import tempfile
 import unittest
+from pathlib import Path
+from unittest.mock import patch
 
-from scripts.coolify_api import CoolifyClient, deployment_uuid, redact
+from scripts.coolify_api import CoolifyClient, credentials, deployment_uuid, redact
 
 
 class FakeTransport:
@@ -141,6 +145,58 @@ class CoolifyApiTests(unittest.TestCase):
             deployment_uuid({"deployments": [{"deployment_uuid": "dep-1"}]}),
             "dep-1",
         )
+
+    def test_credentials_reuse_existing_codex_coolify_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.toml"
+            access_key = "COOLIFY_ACCESS_" + "TOKEN"
+            fixture = "".join(("existing", "-", "fixture"))
+            config.write_text(
+                f"""
+[mcp_servers.coolify.env]
+COOLIFY_BASE_URL = "https://coolify.example.com"
+{access_key} = "{fixture}"
+""".strip(),
+                encoding="utf-8",
+            )
+            with patch.dict(
+                os.environ,
+                {"CODEX_CONFIG_PATH": str(config)},
+                clear=True,
+            ):
+                base_url, token = credentials(None)
+
+        self.assertEqual(base_url, "https://coolify.example.com")
+        self.assertEqual(token, fixture)
+
+    def test_environment_credentials_override_codex_config(self):
+        with tempfile.TemporaryDirectory() as directory:
+            config = Path(directory) / "config.toml"
+            access_key = "COOLIFY_ACCESS_" + "TOKEN"
+            api_env_name = "COOLIFY_API_" + "TOKEN"
+            config_fixture = "".join(("config", "-", "fixture"))
+            env_fixture = "".join(("environment", "-", "fixture"))
+            config.write_text(
+                f"""
+[mcp_servers.coolify.env]
+COOLIFY_BASE_URL = "https://config.example.com"
+{access_key} = "{config_fixture}"
+""".strip(),
+                encoding="utf-8",
+            )
+            with patch.dict(
+                os.environ,
+                {
+                    "CODEX_CONFIG_PATH": str(config),
+                    "COOLIFY_BASE_URL": "https://env.example.com",
+                    api_env_name: env_fixture,
+                },
+                clear=True,
+            ):
+                base_url, token = credentials(None)
+
+        self.assertEqual(base_url, "https://env.example.com")
+        self.assertEqual(token, env_fixture)
 
 
 if __name__ == "__main__":

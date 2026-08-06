@@ -19,7 +19,7 @@
 ## 前置条件
 
 - [ ] Coolify 已安装在目标 VPS，API 可访问。
-- [ ] 已创建 Coolify API Token，并通过环境变量提供。
+- [ ] 已创建 Coolify API Token，并通过环境变量或 Codex 配置提供。
 - [ ] 本机 `git` 可用；需要发布源码时，`gh auth status` 正常。
 - [ ] 自定义域名已经能管理 DNS；自动写 Cloudflare DNS 时，Token 只放环境变量。
 
@@ -27,6 +27,16 @@
 export COOLIFY_BASE_URL=https://coolify.example.com
 export COOLIFY_API_TOKEN=...
 ```
+
+在 Codex 中，如果没有显式环境变量，技能会复用：
+
+```toml
+[mcp_servers.coolify.env]
+COOLIFY_BASE_URL = "https://coolify.example.com"
+COOLIFY_ACCESS_TOKEN = "..."
+```
+
+配置文件应保持仅当前用户可读，例如权限 `600`。技能不会复制、打印或写回这些值。
 
 实例域名直接替换成自己的即可。Coolify MCP 是可选适配层；API 不可用时停止远程写入，不降级为 SSH 或直接操作 VPS Docker。
 
@@ -50,6 +60,16 @@ cp -R /path/to/jong-coolify-deploy "$CODEX_HOME/skills/jong-coolify-deploy"
 ```
 
 安装后重新启动 Agent 会话，让根目录 `SKILL.md` 被重新发现。
+
+## Codex 一句话部署
+
+进入任意本地项目后，只需要说明目标域名：
+
+```text
+使用 jong-coolify-deploy，把当前项目部署到 Coolify，域名使用 app.example.com。
+```
+
+技能会从当前目录识别仓库和构建方式，复用当前 GitHub CLI 登录、Coolify API 配置和已有 DNS 通配能力，再完成源码发布、Coolify 资源创建、部署与 HTTPS 验收。
 
 ## 自然语言用法
 
@@ -172,6 +192,7 @@ python3 /path/to/qiaomu-meta-skill/scripts/release_check.py . \
 ## Troubleshooting
 
 - Coolify API 返回 `401`：检查 Token 是否属于目标团队，以及环境变量是否为 `COOLIFY_API_TOKEN` 或 `COOLIFY_ACCESS_TOKEN`。
+- Codex 未读取到凭证：检查 `~/.codex/config.toml` 的 `mcp_servers.coolify.env` 节点和文件权限。
 - Coolify API 无法连接：核对 `COOLIFY_BASE_URL` 只包含实例 origin；脚本会自动追加 `/api/v1`。
 - Coolify MCP 不可用：直接使用健康的 Coolify REST API；MCP 不是部署前置条件。
 - `gh auth status` 失败：先完成 GitHub CLI 登录，不要把 Token 写进仓库或聊天记录。

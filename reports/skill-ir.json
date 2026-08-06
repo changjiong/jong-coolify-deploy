@@ -3,7 +3,7 @@
   "generated_at": "2026-08-06",
   "package": {
     "name": "jong-coolify-deploy",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "owner": "Jong",
     "maturity_tier": "governed",
     "lifecycle_stage": "production",

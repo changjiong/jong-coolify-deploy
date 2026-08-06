@@ -9,6 +9,7 @@ import json
 import os
 import sys
 import time
+import tomllib
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -150,7 +151,7 @@ class CoolifyClient:
             "Accept": "application/json",
             "Authorization": f"Bearer {self.token}",
             "Content-Type": "application/json",
-            "User-Agent": "jong-coolify-deploy/0.2",
+            "User-Agent": "jong-coolify-deploy/0.2.1",
         }
         status, _, raw = self.transport(method.upper(), url, headers, body, self.timeout)
         result = decode_body(raw)
@@ -259,17 +260,55 @@ class CoolifyClient:
         )
 
 
+def codex_config_env() -> dict[str, str]:
+    path = Path(
+        os.environ.get("CODEX_CONFIG_PATH", "~/.codex/config.toml")
+    ).expanduser()
+    if not path.is_file():
+        return {}
+    try:
+        with path.open("rb") as handle:
+            config = tomllib.load(handle)
+    except (OSError, tomllib.TOMLDecodeError) as exc:
+        raise ValueError(f"unable to read Codex config: {path}") from exc
+    env = (
+        config.get("mcp_servers", {})
+        .get("coolify", {})
+        .get("env", {})
+    )
+    if not isinstance(env, dict):
+        return {}
+    return {
+        key: str(value)
+        for key, value in env.items()
+        if key in {"COOLIFY_BASE_URL", "COOLIFY_API_TOKEN", "COOLIFY_ACCESS_TOKEN"}
+    }
+
+
 def credentials(base_url: str | None) -> tuple[str, str]:
-    resolved_base = base_url or os.environ.get("COOLIFY_BASE_URL", "")
+    config_env = codex_config_env()
+    resolved_base = (
+        base_url
+        or os.environ.get("COOLIFY_BASE_URL")
+        or config_env.get("COOLIFY_BASE_URL", "")
+    )
     token = (
         os.environ.get("COOLIFY_API_TOKEN")
         or os.environ.get("COOLIFY_ACCESS_TOKEN")
+        or config_env.get("COOLIFY_API_TOKEN")
+        or config_env.get("COOLIFY_ACCESS_TOKEN")
         or ""
     )
     if not resolved_base:
-        raise ValueError("set COOLIFY_BASE_URL or pass --base-url")
+        raise ValueError(
+            "set COOLIFY_BASE_URL, pass --base-url, or configure "
+            "mcp_servers.coolify.env.COOLIFY_BASE_URL in ~/.codex/config.toml"
+        )
     if not token:
-        raise ValueError("set COOLIFY_API_TOKEN or COOLIFY_ACCESS_TOKEN")
+        raise ValueError(
+            "set COOLIFY_API_TOKEN/COOLIFY_ACCESS_TOKEN or configure the matching "
+            "key under mcp_servers.coolify.env in ~/.codex/config.toml"
+        )
     return resolved_base, token
 
 
