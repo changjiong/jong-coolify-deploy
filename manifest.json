@@ -1,8 +1,8 @@
 {
   "name": "jong-coolify-deploy",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "owner": "Jong",
-  "updated_at": "2026-08-06",
+  "updated_at": "2026-08-12",
   "status": "experimental",
   "maturity_tier": "governed",
   "lifecycle_stage": "production",
@@ -13,7 +13,9 @@
     "local:coolify-deploy",
     "https://coolify.io/docs/api-reference/api",
     "https://github.com/StuMason/coolify-mcp",
-    "https://github.com/joshuadavidthomas/agent-skills/tree/main/coolify-compose"
+    "https://github.com/joshuadavidthomas/agent-skills/tree/main/coolify-compose",
+    "https://github.com/TerminalSkills/skills/tree/main/skills/coolify",
+    "https://github.com/jonmumm/skills/tree/main/deploy-verify"
   ],
   "target_platforms": [
     "openai",
@@ -43,6 +45,7 @@
     "rollback_boundary",
     "evidence_bound_claims",
     "provider_smoke",
+    "auto_deploy_contract_tests",
     "install_check_or_missing_evidence"
   ]
 }

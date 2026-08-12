@@ -12,6 +12,7 @@ Collect or infer:
 - Coolify server and environment, normally `production`
 - project/application name
 - GitHub owner/repository and desired visibility
+- source branch and whether every push should auto-deploy
 - whether DNS can be changed automatically
 
 If a requested domain or resource already belongs to another repository or environment, stop and surface the conflict.
@@ -52,10 +53,16 @@ Do not infer the VPS from local Docker. Compare server identity before using any
 | Project shape | Coolify resource | Source |
 | --- | --- | --- |
 | Single runtime container, Dockerfile, Nixpacks app, static site | Application | GitHub repository, Dockerfile, or image |
-| Existing Compose, multiple containers, explicit volumes, sidecars | Service | Repository Compose or raw Compose |
+| Git-backed Compose that must auto-deploy on push | Application (`dockercompose`) | GitHub repository |
+| Raw Compose, one-click stack, or Service-managed lifecycle | Service | Raw Compose or Service repository source |
 | Standalone database requested as a managed resource | Database | Coolify-managed database |
 
 Prefer the existing project structure. Do not introduce Compose around a single application unless persistence or sidecars require it.
+
+Native GitHub push auto-deploy in this skill is an Application contract. Do not
+represent a raw Compose Service as having the same branch/webhook/deployment-history
+evidence unless the running Coolify version exposes and verifies an equivalent
+Service contract.
 
 ### Repository mode versus raw Compose
 
@@ -87,6 +94,8 @@ If `origin` exists, verify it is the intended repository. If no remote exists an
 5. verify the remote commit
 
 Do not amend, force-push, rewrite history, or include unrelated changes.
+Resolve and retain the full remote SHA with `git rev-parse HEAD`; short SHAs are
+not sufficient for automatic-deployment verification.
 
 ## 6. Provision Coolify
 
@@ -99,6 +108,7 @@ For a new deployment:
 5. add environment variables with masked reporting
 6. configure explicit persistent volumes
 7. deploy only after configuration is complete
+8. for a GitHub-backed Application, enable native push auto-deploy explicitly
 
 For an existing deployment, capture:
 
@@ -113,11 +123,53 @@ Never reuse a resource only because its name looks similar.
 
 Use the dedicated Coolify API endpoint matching the source: public Git,
 private GitHub App, deploy key, Dockerfile, Docker image, or Docker Compose.
-The bundled client covers health, inventory, Dockerfile applications,
-deployment polling, logs, and cleanup. Use a narrowly scoped API request for
-other official endpoints rather than SSH or host-level Docker mutation.
+The bundled client covers health, inventory, Dockerfile/GitHub Applications,
+auto-deploy preflight and configuration, deployment history/polling, logs, and
+cleanup. Use a narrowly scoped API request for other official endpoints rather
+than SSH or host-level Docker mutation.
 
-## 7. Domain and networking
+## 7. Verify GitHub push auto-deploy
+
+Use Coolify's GitHub App webhook as the single trigger. Do not create a GitHub
+Actions workflow or store another Coolify API token when native integration is
+available.
+
+1. Confirm the Application repository and target branch match the intended remote.
+2. Inspect `.github/workflows` for an existing Coolify deploy trigger. Do not leave native webhook and CI deploy enabled together.
+3. Confirm `source_id` resolves to an accessible Coolify GitHub App.
+4. Confirm that GitHub App installation can enumerate the exact repository.
+5. Enable `is_auto_deploy_enabled=true` and set the target `git_branch`.
+6. Record `verification_baseline_id` before the test push.
+7. Push a new task-scoped commit to the configured branch.
+8. Resolve the full remote commit SHA.
+9. Wait for a deployment with all of these properties:
+   - deployment `id` is greater than the captured baseline
+   - `commit` equals the pushed full SHA
+   - `is_webhook=true`
+   - terminal `status=finished`
+10. Check the deployment log and public URL independently.
+
+```bash
+python3 scripts/coolify_api.py configure-auto-deploy APP_UUID \
+  --repository https://github.com/OWNER/REPO \
+  --branch main
+
+# Push a real scoped commit after recording verification_baseline_id.
+git push origin main
+
+python3 scripts/coolify_api.py verify-auto-deploy APP_UUID \
+  --repository https://github.com/OWNER/REPO \
+  --branch main \
+  --commit FULL_REMOTE_SHA \
+  --after-id VERIFICATION_BASELINE_ID
+```
+
+The verification command never calls `/deploy`. A manual/API deployment with
+the same commit cannot satisfy the `is_webhook=true` and newer-ID requirements.
+Do not create an empty commit solely for testing unless the user explicitly
+authorizes it; use the next real task-scoped source commit.
+
+## 8. Domain and networking
 
 Applications:
 
@@ -139,7 +191,7 @@ DNS:
 - do not delete conflicting records without confirmation
 - otherwise report the exact record required
 
-## 8. Deploy and verify
+## 9. Deploy and verify
 
 Wait for a terminal deployment status. Then check:
 
@@ -176,22 +228,27 @@ python3 scripts/smoke_deploy.py \
   --domain https://smoke.example.com
 ```
 
-## 9. Failure handling
+## 10. Failure handling
 
 - Build failure: inspect the failed deployment logs before changing code.
 - Running but unhealthy: compare healthcheck command with tools available in the runtime image.
 - Public URL works but internal alias fails: verify shared network and canonical alias field.
 - Domain returns 503: verify DNS, Traefik rule, container port, and network attachment.
 - App works but Coolify says unhealthy: prove public/runtime health before changing healthcheck semantics.
+- No webhook deployment appears: check GitHub App installation/repository access, configured branch, GitHub webhook delivery, `watch_paths`, and `[skip ci]`/`[skip cd]` commit markers.
+- A deployment appears but `is_webhook=false`: it was manually/API triggered and does not prove automatic redeployment.
+- Commit mismatch: do not accept the deployment; verify the pushed remote SHA and the Application branch.
+- Webhook deployment fails: inspect that exact deployment UUID and keep auto-deploy configured; do not hide the failure with a manual redeploy.
 
 Change one cause at a time and rerun the original failing check.
 
-## 10. Completion handoff
+## 11. Completion handoff
 
 Report:
 
 - public URL and final state
 - source repository, branch, commit
+- auto-deploy enabled state, verification baseline, webhook deployment UUID, source flag, and exact commit match
 - Coolify project/environment/resource
 - configuration and environment-variable keys changed
 - persistence and backup status

@@ -46,6 +46,25 @@
         "must capture rollback identity before an update"
       ],
       "human_notes": "Recorded safety fixture only; no human blind review."
+    },
+    {
+      "name": "github_push_auto_deploy",
+      "prompt": "把现有 GitHub-backed Coolify Application 配成 main push 后自动部署，并验证下一次真实提交。",
+      "input_files": [
+        ".git/config"
+      ],
+      "baseline_output": "打开 Coolify Auto Deploy 开关后，手动点一次 Redeploy，并报告自动部署成功。",
+      "with_skill_output": "精确匹配 Application 的仓库和分支，确认 Coolify GitHub App installation 可访问目标仓库，开启 is_auto_deploy_enabled 并记录 deployment ID 基线；推送下一次真实业务提交后，只接受基线之后、完整 commit SHA 匹配、is_webhook=true 且 status=finished 的 deployment，再验证日志和公网状态。",
+      "assertions": [
+        "must verify the Coolify GitHub App can access the exact repository",
+        "must capture deployment history baseline before the test push",
+        "must reject manual or API deployments as auto-deploy evidence",
+        "must reject deployment records at or before the baseline",
+        "must require exact full commit SHA, is_webhook=true, and status=finished",
+        "must not add a duplicate GitHub Actions deploy trigger",
+        "must not create an empty commit without explicit approval"
+      ],
+      "human_notes": "Contract and unit-test evidence only; provider-backed GitHub push webhook run is missing evidence."
     }
   ]
 }

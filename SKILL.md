@@ -1,7 +1,7 @@
 ---
 name: jong-coolify-deploy
 description: |
-  Deploy a local Git repository end to end to a self-hosted VPS managed by Coolify. Use when the user asks to deploy or publish the current or named local project to their own Coolify server, perform a one-click local repo -> private GitHub -> Coolify VPS delivery, choose Application versus Docker Compose Service, expose editable environment variables, configure domains and Traefik reachability, persistence and health checks, trigger deployment, and verify HTTPS, logs, and runtime status. Also trigger for Chinese requests such as “把当前项目部署到 Coolify”, “发布到自有 VPS”, “用这个域名一键部署”, or “改造后部署到我的服务器”. Do not use for Vercel or Cloudflare Pages delivery, generic SSH-only VPS provisioning without Coolify, pure DNS explanations, local-only Docker runs, or routine restart/log inspection without a deployment objective.
+  Deploy a local Git repository end to end to a self-hosted VPS managed by Coolify. Use when the user asks to deploy or publish the current or named local project, connect GitHub push auto-deploy, or verify that a new commit was automatically redeployed. Own local repo -> private GitHub -> Coolify VPS delivery, Application versus Service choice, editable environment variables, domains and Traefik reachability, persistence, health checks, webhook deployment evidence, HTTPS, logs, and runtime status. Also trigger for Chinese requests such as “把当前项目部署到 Coolify”, “提交 GitHub 后自动重新部署”, “配置 Coolify 自动部署”, “用这个域名一键部署”, or “改造后部署到我的服务器”. Do not use for Vercel or Cloudflare Pages delivery, generic SSH-only VPS provisioning without Coolify, pure DNS explanations, local-only Docker runs, or routine restart/log inspection without a deployment or auto-deploy outcome.
 ---
 
 # Jong Coolify Deploy
@@ -14,11 +14,12 @@ This skill owns:
 
 - local repository readiness and minimal deployment configuration
 - GitHub repository creation or connection when Coolify needs a source
+- native GitHub App push auto-deploy configuration and commit-bound verification
 - Coolify project, environment, Application or Service provisioning
 - editable environment variables, domains, persistence, health checks, and internal reachability
 - deployment, logs, DNS/TLS checks, and final evidence
 
-Route elsewhere for Vercel/Cloudflare Pages, generic VPS provisioning, pure DNS education, or routine operations without a deployment outcome.
+Route elsewhere for Vercel/Cloudflare Pages, generic VPS provisioning, pure DNS education, or routine operations without a deployment or auto-deploy outcome.
 
 ## Core Workflow
 
@@ -27,14 +28,16 @@ Route elsewhere for Vercel/Cloudflare Pages, generic VPS provisioning, pure DNS 
 3. Run repository-defined tests, lint, typecheck, and build commands that are relevant to deployment.
 4. Add only the minimal Dockerfile, Compose, healthcheck, or runtime configuration required for production.
 5. Publish only task-related source changes to the intended GitHub repository.
-6. Create or update the exact Coolify resource, deploy it, and wait for a terminal deployment state.
-7. Verify status, logs, DNS, HTTPS, health path, deep routes, persistence, and internal aliases when applicable.
-8. Report the URL, source commit, Coolify resource, changes, verification evidence, rollback boundary, and unresolved risks.
+6. Create or update the exact Coolify resource and complete the first deployment.
+7. For a GitHub-backed Application, enable native push auto-deploy, capture the deployment-history baseline, push a new scoped commit, and require a newer successful `is_webhook=true` deployment whose commit matches the pushed SHA.
+8. Verify status, logs, DNS, HTTPS, health path, deep routes, persistence, and internal aliases when applicable.
+9. Report the URL, source commit, Coolify resource, auto-deploy evidence, changes, rollback boundary, and unresolved risks.
 
 ## Resource Choice
 
 - Use a Coolify **Application** for one runtime container or a repository/Dockerfile app.
-- Use a Coolify **Service** for Docker Compose, multiple containers, sidecars, explicit volumes, or complex Traefik labels.
+- Use a Git-backed Coolify **Application** with `build_pack=dockercompose` when a repository Compose stack needs native GitHub push auto-deploy.
+- Use a Coolify **Service** for raw Compose, one-click templates, or multi-container stacks whose lifecycle is intentionally managed as a Service. Do not claim the Application webhook contract for a Service.
 - Reuse an exact existing resource only after matching repository, domain, and environment. Never reuse by a similar name alone.
 
 ## Safety
@@ -46,6 +49,8 @@ Route elsewhere for Vercel/Cloudflare Pages, generic VPS provisioning, pure DNS 
 - Never delete applications, services, databases, volumes, DNS records, or Git history without explicit approval.
 - Preserve unrelated local changes and stage only deployment-related files.
 - Capture the previous resource/deployment identity before modifying an existing production resource.
+- Never add GitHub Actions as a second deployment trigger when native Coolify GitHub App auto-deploy is configured; duplicate triggers can race and deploy twice.
+- Do not call the manual deploy API to prove auto-deploy. Only a newer commit-matching webhook deployment is evidence.
 - Treat local Docker as unrelated to the VPS unless the host identity is proven.
 
 ## Output Contract
@@ -54,6 +59,7 @@ Return:
 
 - public URL and final runtime status
 - GitHub repository, branch, and deployed commit
+- auto-deploy mode, configuration state, baseline ID, webhook deployment UUID/source, and commit match
 - Coolify project/environment/resource name and short UUID
 - environment-variable keys changed, with values masked
 - persistence and backup implications

@@ -1,11 +1,10 @@
 {
   "ok": true,
   "complete": true,
-  "researched_at": "2026-08-06",
+  "researched_at": "2026-08-12",
   "queries": [
-    "coolify deploy local repository self hosted vps",
-    "coolify deployment automation custom domain",
-    "docker compose deploy github self hosted server"
+    "Coolify GitHub auto deploy webhook",
+    "Coolify verify deployment commit SHA"
   ],
   "metric_semantics": {
     "skills_sh_installs": "ecosystem install telemetry; not ratings or correctness",
@@ -14,106 +13,36 @@
   },
   "query_runs": [
     {
-      "query": "coolify deploy local repository self hosted vps",
+      "query": "Coolify GitHub auto deploy webhook",
       "skills_sh": "ok",
       "skillsmp": "ok",
-      "skills_sh_candidates": 13,
+      "skills_sh_candidates": 14,
       "skillsmp_candidates": 10
     },
     {
-      "query": "coolify deployment automation custom domain",
+      "query": "Coolify verify deployment commit SHA",
       "skills_sh": "ok",
       "skillsmp": "ok",
-      "skills_sh_candidates": 20,
+      "skills_sh_candidates": 16,
       "skillsmp_candidates": 10
-    },
-    {
-      "query": "docker compose deploy github self hosted server",
-      "skills_sh": "ok",
-      "skillsmp": "ok",
-      "skills_sh_candidates": 17,
-      "skillsmp_candidates": 5
     }
   ],
-  "candidate_family_count": 52,
+  "candidate_family_count": 28,
   "candidates": [
-    {
-      "family_key": "nvidia/skills:rag-blueprint",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "nvidia/skills",
-        "skill_name": "rag-blueprint",
-        "family_key": "nvidia/skills:rag-blueprint",
-        "skills_sh_installs": 2500,
-        "skills_sh_installs_display": "2.5K",
-        "skills_sh_url": "https://skills.sh/nvidia/skills/rag-blueprint"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "nvidia/skills:aiq-deploy",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "nvidia/skills",
-        "skill_name": "aiq-deploy",
-        "family_key": "nvidia/skills:aiq-deploy",
-        "skills_sh_installs": 2200,
-        "skills_sh_installs_display": "2.2K",
-        "skills_sh_url": "https://skills.sh/nvidia/skills/aiq-deploy"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "czlonkowski/n8n-skills:n8n-self-hosting",
-      "queries": [
-        "coolify deploy local repository self hosted vps",
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "czlonkowski/n8n-skills",
-        "skill_name": "n8n-self-hosting",
-        "family_key": "czlonkowski/n8n-skills:n8n-self-hosting",
-        "skills_sh_installs": 625,
-        "skills_sh_installs_display": "625",
-        "skills_sh_url": "https://skills.sh/czlonkowski/n8n-skills/n8n-self-hosting"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
     {
       "family_key": "ajmcclary/coolify-manager:coolify-manager",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "ajmcclary/coolify-manager",
         "skill_name": "coolify-manager",
         "family_key": "ajmcclary/coolify-manager:coolify-manager",
-        "skills_sh_installs": 416,
-        "skills_sh_installs_display": "416",
+        "skills_sh_installs": 424,
+        "skills_sh_installs_display": "424",
         "skills_sh_url": "https://skills.sh/ajmcclary/coolify-manager/coolify-manager"
       },
       "skillsmp": null,
@@ -123,19 +52,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "thebushidocollective/han:docker-compose-production",
+      "family_key": "petrkindlmann/qa-skills:bug-reproduction",
       "queries": [
-        "docker compose deploy github self hosted server"
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "thebushidocollective/han",
-        "skill_name": "docker-compose-production",
-        "family_key": "thebushidocollective/han:docker-compose-production",
-        "skills_sh_installs": 373,
-        "skills_sh_installs_display": "373",
-        "skills_sh_url": "https://skills.sh/thebushidocollective/han/docker-compose-production"
+        "query": "Coolify verify deployment commit SHA",
+        "owner_repo": "petrkindlmann/qa-skills",
+        "skill_name": "bug-reproduction",
+        "family_key": "petrkindlmann/qa-skills:bug-reproduction",
+        "skills_sh_installs": 288,
+        "skills_sh_installs_display": "288",
+        "skills_sh_url": "https://skills.sh/petrkindlmann/qa-skills/bug-reproduction"
       },
       "skillsmp": null,
       "catalogs": [
@@ -144,41 +73,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "infisical/ai-skills:infisical-self-host",
+      "family_key": "hookdeck/webhook-skills:github-webhooks",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "docker compose deploy github self hosted server"
+        "Coolify GitHub auto deploy webhook"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "infisical/ai-skills",
-        "skill_name": "infisical-self-host",
-        "family_key": "infisical/ai-skills:infisical-self-host",
-        "skills_sh_installs": 317,
-        "skills_sh_installs_display": "317",
-        "skills_sh_url": "https://skills.sh/infisical/ai-skills/infisical-self-host"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "auth0/agent-skills:auth0-custom-domains",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "auth0/agent-skills",
-        "skill_name": "auth0-custom-domains",
-        "family_key": "auth0/agent-skills:auth0-custom-domains",
-        "skills_sh_installs": 289,
-        "skills_sh_installs_display": "289",
-        "skills_sh_url": "https://skills.sh/auth0/agent-skills/auth0-custom-domains"
+        "query": "Coolify GitHub auto deploy webhook",
+        "owner_repo": "hookdeck/webhook-skills",
+        "skill_name": "github-webhooks",
+        "family_key": "hookdeck/webhook-skills:github-webhooks",
+        "skills_sh_installs": 282,
+        "skills_sh_installs_display": "282",
+        "skills_sh_url": "https://skills.sh/hookdeck/webhook-skills/github-webhooks"
       },
       "skillsmp": null,
       "catalogs": [
@@ -189,61 +96,18 @@
     {
       "family_key": "oakoss/agent-skills:coolify",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain",
-        "docker compose deploy github self hosted server"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "oakoss/agent-skills",
         "skill_name": "coolify",
         "family_key": "oakoss/agent-skills:coolify",
-        "skills_sh_installs": 268,
-        "skills_sh_installs_display": "268",
+        "skills_sh_installs": 275,
+        "skills_sh_installs_display": "275",
         "skills_sh_url": "https://skills.sh/oakoss/agent-skills/coolify"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "akillness/oh-my-skills:deployment-automation",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "akillness/oh-my-skills",
-        "skill_name": "deployment-automation",
-        "family_key": "akillness/oh-my-skills:deployment-automation",
-        "skills_sh_installs": 218,
-        "skills_sh_installs_display": "218",
-        "skills_sh_url": "https://skills.sh/akillness/oh-my-skills/deployment-automation"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "render-oss/skills:render-domains",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "render-oss/skills",
-        "skill_name": "render-domains",
-        "family_key": "render-oss/skills:render-domains",
-        "skills_sh_installs": 186,
-        "skills_sh_installs_display": "186",
-        "skills_sh_url": "https://skills.sh/render-oss/skills/render-domains"
       },
       "skillsmp": null,
       "catalogs": [
@@ -254,17 +118,17 @@
     {
       "family_key": "v1truv1us/ai-eng-system:coolify-deploy",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "v1truv1us/ai-eng-system",
         "skill_name": "coolify-deploy",
         "family_key": "v1truv1us/ai-eng-system:coolify-deploy",
-        "skills_sh_installs": 172,
-        "skills_sh_installs_display": "172",
+        "skills_sh_installs": 173,
+        "skills_sh_installs_display": "173",
         "skills_sh_url": "https://skills.sh/v1truv1us/ai-eng-system/coolify-deploy"
       },
       "skillsmp": null,
@@ -274,82 +138,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "bagelhole/devops-security-agent-skills:docker-compose",
+      "family_key": "nvidia/skills:doca-sha",
       "queries": [
-        "docker compose deploy github self hosted server"
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "bagelhole/devops-security-agent-skills",
-        "skill_name": "docker-compose",
-        "family_key": "bagelhole/devops-security-agent-skills:docker-compose",
-        "skills_sh_installs": 170,
-        "skills_sh_installs_display": "170",
-        "skills_sh_url": "https://skills.sh/bagelhole/devops-security-agent-skills/docker-compose"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "dfinity/icskills:custom-domains",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "dfinity/icskills",
-        "skill_name": "custom-domains",
-        "family_key": "dfinity/icskills:custom-domains",
-        "skills_sh_installs": 117,
-        "skills_sh_installs_display": "117",
-        "skills_sh_url": "https://skills.sh/dfinity/icskills/custom-domains"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "akillness/jeo-skills:deployment-automation",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "akillness/jeo-skills",
-        "skill_name": "deployment-automation",
-        "family_key": "akillness/jeo-skills:deployment-automation",
-        "skills_sh_installs": 71,
-        "skills_sh_installs_display": "71",
-        "skills_sh_url": "https://skills.sh/akillness/jeo-skills/deployment-automation"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "josiahsiegel/claude-plugin-marketplace:nextjs-deployment",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "josiahsiegel/claude-plugin-marketplace",
-        "skill_name": "nextjs-deployment",
-        "family_key": "josiahsiegel/claude-plugin-marketplace:nextjs-deployment",
-        "skills_sh_installs": 57,
-        "skills_sh_installs_display": "57",
-        "skills_sh_url": "https://skills.sh/josiahsiegel/claude-plugin-marketplace/nextjs-deployment"
+        "query": "Coolify verify deployment commit SHA",
+        "owner_repo": "nvidia/skills",
+        "skill_name": "doca-sha",
+        "family_key": "nvidia/skills:doca-sha",
+        "skills_sh_installs": 103,
+        "skills_sh_installs_display": "103",
+        "skills_sh_url": "https://skills.sh/nvidia/skills/doca-sha"
       },
       "skillsmp": null,
       "catalogs": [
@@ -360,37 +161,54 @@
     {
       "family_key": "terminalskills/skills:coolify",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "terminalskills/skills",
         "skill_name": "coolify",
         "family_key": "terminalskills/skills:coolify",
-        "skills_sh_installs": 46,
-        "skills_sh_installs_display": "46",
+        "skills_sh_installs": 53,
+        "skills_sh_installs_display": "53",
         "skills_sh_url": "https://skills.sh/terminalskills/skills/coolify"
       },
-      "skillsmp": null,
+      "skillsmp": {
+        "source": "skillsmp",
+        "name": "coolify",
+        "author": "TerminalSkills",
+        "description": "Deploy and manage applications, databases, and services on Coolify. Use when a user asks to deploy an app to Coolify, manage Coolify deployments, check deployment logs, sync environment variables, create or manage databases on Coolify, trigger a deployment, manage Coolify servers, or troubleshoot Coolify issues. Covers the Coolify CLI and REST API. For infrastructure provisioning on Hetzner, see hetzner-cloud.",
+        "content_language": "en",
+        "github_url": "https://github.com/TerminalSkills/skills/tree/main/skills/coolify",
+        "skillsmp_url": "https://skillsmp.com/creators/terminalskills/skills/skills-coolify",
+        "repo_stars": 123,
+        "catalog_updated_at": "2026-05-13T16:57:43+00:00",
+        "source_key": "terminalskills/skills:skills/coolify",
+        "family_key": "terminalskills/skills:coolify",
+        "aliases": [],
+        "query": "Coolify GitHub auto deploy webhook"
+      },
       "catalogs": [
-        "skills.sh"
+        "skills.sh",
+        "skillsmp"
       ],
       "requires_source_review": true
     },
     {
       "family_key": "fabricioctelles/skills:coolify-operator",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "fabricioctelles/skills",
         "skill_name": "coolify-operator",
         "family_key": "fabricioctelles/skills:coolify-operator",
-        "skills_sh_installs": 43,
-        "skills_sh_installs_display": "43",
+        "skills_sh_installs": 44,
+        "skills_sh_installs_display": "44",
         "skills_sh_url": "https://skills.sh/fabricioctelles/skills/coolify-operator"
       },
       "skillsmp": null,
@@ -400,19 +218,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "fcakyon/claude-codex-settings:dokploy-deploy",
+      "family_key": "jeffreyyvdb/dokploy-ghcr-deploy:dokploy-ghcr-deploy",
       "queries": [
-        "docker compose deploy github self hosted server"
+        "Coolify GitHub auto deploy webhook"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "fcakyon/claude-codex-settings",
-        "skill_name": "dokploy-deploy",
-        "family_key": "fcakyon/claude-codex-settings:dokploy-deploy",
-        "skills_sh_installs": 42,
-        "skills_sh_installs_display": "42",
-        "skills_sh_url": "https://skills.sh/fcakyon/claude-codex-settings/dokploy-deploy"
+        "query": "Coolify GitHub auto deploy webhook",
+        "owner_repo": "jeffreyyvdb/dokploy-ghcr-deploy",
+        "skill_name": "dokploy-ghcr-deploy",
+        "family_key": "jeffreyyvdb/dokploy-ghcr-deploy:dokploy-ghcr-deploy",
+        "skills_sh_installs": 44,
+        "skills_sh_installs_display": "44",
+        "skills_sh_url": "https://skills.sh/jeffreyyvdb/dokploy-ghcr-deploy/dokploy-ghcr-deploy"
       },
       "skillsmp": null,
       "catalogs": [
@@ -421,19 +239,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "partme-ai/full-stack-skills:docker-compose",
+      "family_key": "jonmumm/skills:deploy-verify",
       "queries": [
-        "docker compose deploy github self hosted server"
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "partme-ai/full-stack-skills",
-        "skill_name": "docker-compose",
-        "family_key": "partme-ai/full-stack-skills:docker-compose",
-        "skills_sh_installs": 31,
-        "skills_sh_installs_display": "31",
-        "skills_sh_url": "https://skills.sh/partme-ai/full-stack-skills/docker-compose"
+        "query": "Coolify verify deployment commit SHA",
+        "owner_repo": "jonmumm/skills",
+        "skill_name": "deploy-verify",
+        "family_key": "jonmumm/skills:deploy-verify",
+        "skills_sh_installs": 23,
+        "skills_sh_installs_display": "23",
+        "skills_sh_url": "https://skills.sh/jonmumm/skills/deploy-verify"
       },
       "skillsmp": null,
       "catalogs": [
@@ -442,125 +260,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "akillness/skills-template:deployment-automation",
+      "family_key": "danzam98/claude-skills-toolkit:deployment-verifier",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "akillness/skills-template",
-        "skill_name": "deployment-automation",
-        "family_key": "akillness/skills-template:deployment-automation",
-        "skills_sh_installs": 27,
-        "skills_sh_installs_display": "27",
-        "skills_sh_url": "https://skills.sh/akillness/skills-template/deployment-automation"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "tinyshipcn/tinyship-skills:tinyship-deploy",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "tinyshipcn/tinyship-skills",
-        "skill_name": "tinyship-deploy",
-        "family_key": "tinyshipcn/tinyship-skills:tinyship-deploy",
-        "skills_sh_installs": 26,
-        "skills_sh_installs_display": "26",
-        "skills_sh_url": "https://skills.sh/tinyshipcn/tinyship-skills/tinyship-deploy"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "gotempsh/temps:add-custom-domain",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "gotempsh/temps",
-        "skill_name": "add-custom-domain",
-        "family_key": "gotempsh/temps:add-custom-domain",
-        "skills_sh_installs": 24,
-        "skills_sh_installs_display": "24",
-        "skills_sh_url": "https://skills.sh/gotempsh/temps/add-custom-domain"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "phasehq/ai:docker-compose",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "phasehq/ai",
-        "skill_name": "docker-compose",
-        "family_key": "phasehq/ai:docker-compose",
-        "skills_sh_installs": 21,
-        "skills_sh_installs_display": "21",
-        "skills_sh_url": "https://skills.sh/phasehq/ai/docker-compose"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "cameronapak/bknd-skills:bknd-deploy-hosting",
-      "queries": [
-        "coolify deploy local repository self hosted vps"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "cameronapak/bknd-skills",
-        "skill_name": "bknd-deploy-hosting",
-        "family_key": "cameronapak/bknd-skills:bknd-deploy-hosting",
-        "skills_sh_installs": 18,
-        "skills_sh_installs_display": "18",
-        "skills_sh_url": "https://skills.sh/cameronapak/bknd-skills/bknd-deploy-hosting"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "czlonkowski/n8n-mcp:n8n-self-hosting",
-      "queries": [
-        "coolify deploy local repository self hosted vps",
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "czlonkowski/n8n-mcp",
-        "skill_name": "n8n-self-hosting",
-        "family_key": "czlonkowski/n8n-mcp:n8n-self-hosting",
+        "query": "Coolify verify deployment commit SHA",
+        "owner_repo": "danzam98/claude-skills-toolkit",
+        "skill_name": "deployment-verifier",
+        "family_key": "danzam98/claude-skills-toolkit:deployment-verifier",
         "skills_sh_installs": 14,
         "skills_sh_installs_display": "14",
-        "skills_sh_url": "https://skills.sh/czlonkowski/n8n-mcp/n8n-self-hosting"
+        "skills_sh_url": "https://skills.sh/danzam98/claude-skills-toolkit/deployment-verifier"
       },
       "skillsmp": null,
       "catalogs": [
@@ -569,115 +281,36 @@
       "requires_source_review": true
     },
     {
-      "family_key": "scalekit-inc/authstack:self-hosted",
+      "family_key": "evolv3-ai/vibe-skills:coolify-cli",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "docker compose deploy github self hosted server"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "scalekit-inc/authstack",
-        "skill_name": "self-hosted",
-        "family_key": "scalekit-inc/authstack:self-hosted",
-        "skills_sh_installs": 12,
-        "skills_sh_installs_display": "12",
-        "skills_sh_url": "https://skills.sh/scalekit-inc/authstack/self-hosted"
+        "query": "Coolify GitHub auto deploy webhook",
+        "owner_repo": "evolv3-ai/vibe-skills",
+        "skill_name": "coolify-cli",
+        "family_key": "evolv3-ai/vibe-skills:coolify-cli",
+        "skills_sh_installs": 8,
+        "skills_sh_installs_display": "8",
+        "skills_sh_url": "https://skills.sh/evolv3-ai/vibe-skills/coolify-cli"
       },
       "skillsmp": null,
       "catalogs": [
         "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "akillness/oh-my-gods:deployment-automation",
-      "queries": [
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "akillness/oh-my-gods",
-        "skill_name": "deployment-automation",
-        "family_key": "akillness/oh-my-gods:deployment-automation",
-        "skills_sh_installs": 11,
-        "skills_sh_installs_display": "11",
-        "skills_sh_url": "https://skills.sh/akillness/oh-my-gods/deployment-automation"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "featbit/featbit-skills:featbit-deployment-docker",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "featbit/featbit-skills",
-        "skill_name": "featbit-deployment-docker",
-        "family_key": "featbit/featbit-skills:featbit-deployment-docker",
-        "skills_sh_installs": 9,
-        "skills_sh_installs_display": "9",
-        "skills_sh_url": "https://skills.sh/featbit/featbit-skills/featbit-deployment-docker"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "sundial-org/awesome-openclaw-skills:coolify",
-      "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "sundial-org/awesome-openclaw-skills",
-        "skill_name": "coolify",
-        "family_key": "sundial-org/awesome-openclaw-skills:coolify",
-        "skills_sh_installs": 7,
-        "skills_sh_installs_display": "7",
-        "skills_sh_url": "https://skills.sh/sundial-org/awesome-openclaw-skills/coolify"
-      },
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "coolify",
-        "author": "sundial-org",
-        "description": "Manage Coolify deployments, applications, databases, and services via the Coolify API. Use when the user wants to deploy, start, stop, restart, or manage applications hosted on Coolify.",
-        "content_language": "en",
-        "github_url": "https://github.com/sundial-org/awesome-openclaw-skills/tree/main/skills/coolify",
-        "skillsmp_url": "https://skillsmp.com/creators/sundial-org/awesome-openclaw-skills/skills-coolify",
-        "repo_stars": 638,
-        "catalog_updated_at": "2026-02-01T06:57:17+00:00",
-        "source_key": "sundial-org/awesome-openclaw-skills:skills/coolify",
-        "family_key": "sundial-org/awesome-openclaw-skills:coolify",
-        "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
-      },
-      "catalogs": [
-        "skills.sh",
-        "skillsmp"
       ],
       "requires_source_review": true
     },
     {
       "family_key": "aammo1/sk:coolify-deploy",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "aammo1/sk",
         "skill_name": "coolify-deploy",
         "family_key": "aammo1/sk:coolify-deploy",
@@ -692,13 +325,36 @@
       "requires_source_review": true
     },
     {
-      "family_key": "fatih-developer/fth-skills:coolify-orchestrator",
+      "family_key": "hifizz/coolify-ops-skill:coolify-ops",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
+        "query": "Coolify GitHub auto deploy webhook",
+        "owner_repo": "hifizz/coolify-ops-skill",
+        "skill_name": "coolify-ops",
+        "family_key": "hifizz/coolify-ops-skill:coolify-ops",
+        "skills_sh_installs": 7,
+        "skills_sh_installs_display": "7",
+        "skills_sh_url": "https://skills.sh/hifizz/coolify-ops-skill/coolify-ops"
+      },
+      "skillsmp": null,
+      "catalogs": [
+        "skills.sh"
+      ],
+      "requires_source_review": true
+    },
+    {
+      "family_key": "fatih-developer/fth-skills:coolify-orchestrator",
+      "queries": [
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
+      ],
+      "skills_sh": {
+        "source": "skills.sh",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "fatih-developer/fth-skills",
         "skill_name": "coolify-orchestrator",
         "family_key": "fatih-developer/fth-skills:coolify-orchestrator",
@@ -713,35 +369,14 @@
       "requires_source_review": true
     },
     {
-      "family_key": "hifizz/coolify-ops-skill:coolify-ops",
-      "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "hifizz/coolify-ops-skill",
-        "skill_name": "coolify-ops",
-        "family_key": "hifizz/coolify-ops-skill:coolify-ops",
-        "skills_sh_installs": 6,
-        "skills_sh_installs_display": "6",
-        "skills_sh_url": "https://skills.sh/hifizz/coolify-ops-skill/coolify-ops"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
       "family_key": "mikkelkrogsholm/dev-skills:coolify",
       "queries": [
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "mikkelkrogsholm/dev-skills",
         "skill_name": "coolify",
         "family_key": "mikkelkrogsholm/dev-skills:coolify",
@@ -756,56 +391,19 @@
       "requires_source_review": true
     },
     {
-      "family_key": "stumason/coolify-mcp:coolify",
+      "family_key": "evolv3-ai/vibe-skills:coolify",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deployment automation custom domain",
-        "owner_repo": "stumason/coolify-mcp",
+        "query": "Coolify GitHub auto deploy webhook",
+        "owner_repo": "evolv3-ai/vibe-skills",
         "skill_name": "coolify",
-        "family_key": "stumason/coolify-mcp:coolify",
+        "family_key": "evolv3-ai/vibe-skills:coolify",
         "skills_sh_installs": 5,
         "skills_sh_installs_display": "5",
-        "skills_sh_url": "https://skills.sh/stumason/coolify-mcp/coolify"
-      },
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "coolify",
-        "author": "StuMason",
-        "description": "Operate a Coolify self-hosted PaaS through the @masonator/coolify-mcp server. Use this skill whenever the user asks Claude to inspect, deploy, restart, debug, or manage anything on Coolify — including applications, databases, services, servers, projects, environments, deployments, environment variables, private keys, GitHub apps, teams, or cloud provider tokens. Trigger even when the user does not say the word \"Coolify\" but clearly refers to their self-hosted infra (e.g. \"redeploy my-api\", \"why is my postgres down\", \"restart the staging app\", \"what's running on my Hetzner box\"). Prefer this skill over generic shell or HTTP tools whenever Coolify MCP tools are available.",
-        "content_language": "en",
-        "github_url": "https://github.com/StuMason/coolify-mcp/tree/main/skills/coolify",
-        "skillsmp_url": "https://skillsmp.com/creators/stumason/coolify-mcp/skills-coolify",
-        "repo_stars": 538,
-        "catalog_updated_at": "2026-04-14T12:51:20+00:00",
-        "source_key": "stumason/coolify-mcp:skills/coolify",
-        "family_key": "stumason/coolify-mcp:coolify",
-        "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
-      },
-      "catalogs": [
-        "skills.sh",
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "1mangesh1/dev-skills-collection:docker-compose",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "1mangesh1/dev-skills-collection",
-        "skill_name": "docker-compose",
-        "family_key": "1mangesh1/dev-skills-collection:docker-compose",
-        "skills_sh_installs": 5,
-        "skills_sh_installs_display": "5",
-        "skills_sh_url": "https://skills.sh/1mangesh1/dev-skills-collection/docker-compose"
+        "skills_sh_url": "https://skills.sh/evolv3-ai/vibe-skills/coolify"
       },
       "skillsmp": null,
       "catalogs": [
@@ -816,12 +414,12 @@
     {
       "family_key": "stakpak/community-paks:coolify-deployment",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
+        "query": "Coolify GitHub auto deploy webhook",
         "owner_repo": "stakpak/community-paks",
         "skill_name": "coolify-deployment",
         "family_key": "stakpak/community-paks:coolify-deployment",
@@ -836,224 +434,31 @@
       "requires_source_review": true
     },
     {
-      "family_key": "diegosouzapw/omniroute:deploy-vps-local-cx",
+      "family_key": "pfurini/coolify-skills:coolify-cli",
       "queries": [
-        "coolify deploy local repository self hosted vps"
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": {
         "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "diegosouzapw/omniroute",
-        "skill_name": "deploy-vps-local-cx",
-        "family_key": "diegosouzapw/omniroute:deploy-vps-local-cx",
-        "skills_sh_installs": 3,
-        "skills_sh_installs_display": "3",
-        "skills_sh_url": "https://skills.sh/diegosouzapw/omniroute/deploy-vps-local-cx"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "evolv3-ai/vibe-skills:coolify",
-      "queries": [
-        "coolify deploy local repository self hosted vps"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "coolify deploy local repository self hosted vps",
-        "owner_repo": "evolv3-ai/vibe-skills",
-        "skill_name": "coolify",
-        "family_key": "evolv3-ai/vibe-skills:coolify",
+        "query": "Coolify verify deployment commit SHA",
+        "owner_repo": "pfurini/coolify-skills",
+        "skill_name": "coolify-cli",
+        "family_key": "pfurini/coolify-skills:coolify-cli",
         "skills_sh_installs": 2,
         "skills_sh_installs_display": "2",
-        "skills_sh_url": "https://skills.sh/evolv3-ai/vibe-skills/coolify"
+        "skills_sh_url": "https://skills.sh/pfurini/coolify-skills/coolify-cli"
       },
       "skillsmp": null,
       "catalogs": [
         "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "linksawakening/docker-git-deploy:docker-git-deploy-skill",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": {
-        "source": "skills.sh",
-        "query": "docker compose deploy github self hosted server",
-        "owner_repo": "linksawakening/docker-git-deploy",
-        "skill_name": "docker-git-deploy-skill",
-        "family_key": "linksawakening/docker-git-deploy:docker-git-deploy-skill",
-        "skills_sh_installs": 2,
-        "skills_sh_installs_display": "2",
-        "skills_sh_url": "https://skills.sh/linksawakening/docker-git-deploy/docker-git-deploy-skill"
-      },
-      "skillsmp": null,
-      "catalogs": [
-        "skills.sh"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "openclaw/openclaw:openclaw-docker-e2e-authoring",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "openclaw-docker-e2e-authoring",
-        "author": "openclaw",
-        "description": "Author OpenClaw Docker E2E and live provider Docker lanes.",
-        "content_language": "en",
-        "github_url": "https://github.com/openclaw/openclaw/tree/main/.agents/skills/openclaw-docker-e2e-authoring",
-        "skillsmp_url": "https://skillsmp.com/creators/openclaw/openclaw/agents-skills-openclaw-docker-e2e-authoring",
-        "repo_stars": 385119,
-        "catalog_updated_at": "2026-05-18T12:45:35+00:00",
-        "source_key": "openclaw/openclaw:.agents/skills/openclaw-docker-e2e-authoring",
-        "family_key": "openclaw/openclaw:openclaw-docker-e2e-authoring",
-        "aliases": [],
-        "query": "docker compose deploy github self hosted server"
-      },
-      "catalogs": [
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "openclaw/openclaw:openclaw-testing",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "openclaw-testing",
-        "author": "openclaw",
-        "description": "Choose, run, rerun, or debug OpenClaw tests, CI checks, Docker E2E lanes, release validation, and the cheapest safe verification path.",
-        "content_language": "en",
-        "github_url": "https://github.com/openclaw/openclaw/tree/main/.agents/skills/openclaw-testing",
-        "skillsmp_url": "https://skillsmp.com/creators/openclaw/openclaw/agents-skills-openclaw-testing",
-        "repo_stars": 385119,
-        "catalog_updated_at": "2026-07-29T07:23:37+00:00",
-        "source_key": "openclaw/openclaw:.agents/skills/openclaw-testing",
-        "family_key": "openclaw/openclaw:openclaw-testing",
-        "aliases": [],
-        "query": "docker compose deploy github self hosted server"
-      },
-      "catalogs": [
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "openclaw/openclaw:release-openclaw-plugin-testing",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "release-openclaw-plugin-testing",
-        "author": "openclaw",
-        "description": "Plan and run pre-release OpenClaw plugin validation across bundled plugins, package artifacts, lifecycle commands, doctor/fix, config round-trip, gateway startup, SDK compatibility, Docker E2E, Package Acceptance, and Testbox proof.",
-        "content_language": "en",
-        "github_url": "https://github.com/openclaw/openclaw/tree/main/.agents/skills/release-openclaw-plugin-testing",
-        "skillsmp_url": "https://skillsmp.com/creators/openclaw/openclaw/agents-skills-release-openclaw-plugin-testing",
-        "repo_stars": 385119,
-        "catalog_updated_at": "2026-07-23T01:48:48+00:00",
-        "source_key": "openclaw/openclaw:.agents/skills/release-openclaw-plugin-testing",
-        "family_key": "openclaw/openclaw:release-openclaw-plugin-testing",
-        "aliases": [],
-        "query": "docker compose deploy github self hosted server"
-      },
-      "catalogs": [
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "affaan-m/ecc:deployment-patterns",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "deployment-patterns",
-        "author": "affaan-m",
-        "description": "Kubernetes、Docker、Vercel、クラウドプロバイダーにおけるデプロイメントパターンと戦略。ブルーグリーン、カナリア、ローリングデプロイメント、ゼロダウンタイムアップグレード。",
-        "content_language": "ja",
-        "github_url": "https://github.com/affaan-m/ECC/tree/main/docs/ja-JP/skills/deployment-patterns",
-        "skillsmp_url": "https://skillsmp.com/creators/affaan-m/ecc/docs-ja-jp-skills-deployment-patterns",
-        "repo_stars": 237500,
-        "catalog_updated_at": "2026-05-17T06:31:40+00:00",
-        "source_key": "affaan-m/ecc:docs/ja-jp/skills/deployment-patterns",
-        "family_key": "affaan-m/ecc:deployment-patterns",
-        "aliases": [],
-        "query": "docker compose deploy github self hosted server"
-      },
-      "catalogs": [
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "affaan-m/ecc:docker-patterns",
-      "queries": [
-        "docker compose deploy github self hosted server"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "docker-patterns",
-        "author": "affaan-m",
-        "description": "Docker and Docker Compose patterns for local development, container security, networking, volume strategies, and multi-service orchestration.",
-        "content_language": "en",
-        "github_url": "https://github.com/affaan-m/ECC/tree/main/skills/docker-patterns",
-        "skillsmp_url": "https://skillsmp.com/creators/affaan-m/ecc/skills-docker-patterns",
-        "repo_stars": 237500,
-        "catalog_updated_at": "2026-06-11T12:12:21+00:00",
-        "source_key": "affaan-m/ecc:skills/docker-patterns",
-        "family_key": "affaan-m/ecc:docker-patterns",
-        "aliases": [
-          {
-            "language": "es",
-            "github_url": "https://github.com/affaan-m/ECC/tree/main/docs/es/skills/docker-patterns"
-          },
-          {
-            "language": "en",
-            "github_url": "https://github.com/affaan-m/ECC/tree/main/.kiro/skills/docker-patterns"
-          },
-          {
-            "language": "zh",
-            "github_url": "https://github.com/affaan-m/ECC/tree/main/docs/zh-CN/skills/docker-patterns"
-          },
-          {
-            "language": "tur",
-            "github_url": "https://github.com/affaan-m/ECC/tree/main/docs/tr/skills/docker-patterns"
-          },
-          {
-            "language": "ja",
-            "github_url": "https://github.com/affaan-m/ECC/tree/main/docs/ja-JP/skills/docker-patterns"
-          }
-        ],
-        "query": "docker compose deploy github self hosted server"
-      },
-      "catalogs": [
-        "skillsmp"
       ],
       "requires_source_review": true
     },
     {
       "family_key": "phuc-nt/my-translator:ck-deploy",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1064,12 +469,66 @@
         "content_language": "en",
         "github_url": "https://github.com/phuc-nt/my-translator/tree/main/.opencode/skills/deploy",
         "skillsmp_url": "https://skillsmp.com/creators/phuc-nt/my-translator/opencode-skills-deploy",
-        "repo_stars": 1256,
+        "repo_stars": 1261,
         "catalog_updated_at": "2026-05-09T17:04:37+00:00",
         "source_key": "phuc-nt/my-translator:.opencode/skills/deploy",
         "family_key": "phuc-nt/my-translator:ck-deploy",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
+      },
+      "catalogs": [
+        "skillsmp"
+      ],
+      "requires_source_review": true
+    },
+    {
+      "family_key": "sundial-org/awesome-openclaw-skills:coolify",
+      "queries": [
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
+      ],
+      "skills_sh": null,
+      "skillsmp": {
+        "source": "skillsmp",
+        "name": "coolify",
+        "author": "sundial-org",
+        "description": "Manage Coolify deployments, applications, databases, and services via the Coolify API. Use when the user wants to deploy, start, stop, restart, or manage applications hosted on Coolify.",
+        "content_language": "en",
+        "github_url": "https://github.com/sundial-org/awesome-openclaw-skills/tree/main/skills/coolify",
+        "skillsmp_url": "https://skillsmp.com/creators/sundial-org/awesome-openclaw-skills/skills-coolify",
+        "repo_stars": 639,
+        "catalog_updated_at": "2026-02-01T06:57:17+00:00",
+        "source_key": "sundial-org/awesome-openclaw-skills:skills/coolify",
+        "family_key": "sundial-org/awesome-openclaw-skills:coolify",
+        "aliases": [],
+        "query": "Coolify GitHub auto deploy webhook"
+      },
+      "catalogs": [
+        "skillsmp"
+      ],
+      "requires_source_review": true
+    },
+    {
+      "family_key": "stumason/coolify-mcp:coolify",
+      "queries": [
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
+      ],
+      "skills_sh": null,
+      "skillsmp": {
+        "source": "skillsmp",
+        "name": "coolify",
+        "author": "StuMason",
+        "description": "Operate a Coolify self-hosted PaaS through the @masonator/coolify-mcp server. Use this skill whenever the user asks Claude to inspect, deploy, restart, debug, or manage anything on Coolify — including applications, databases, services, servers, projects, environments, deployments, environment variables, private keys, GitHub apps, teams, or cloud provider tokens. Trigger even when the user does not say the word \"Coolify\" but clearly refers to their self-hosted infra (e.g. \"redeploy my-api\", \"why is my postgres down\", \"restart the staging app\", \"what's running on my Hetzner box\"). Prefer this skill over generic shell or HTTP tools whenever Coolify MCP tools are available.",
+        "content_language": "en",
+        "github_url": "https://github.com/StuMason/coolify-mcp/tree/main/skills/coolify",
+        "skillsmp_url": "https://skillsmp.com/creators/stumason/coolify-mcp/skills-coolify",
+        "repo_stars": 543,
+        "catalog_updated_at": "2026-04-14T12:51:20+00:00",
+        "source_key": "stumason/coolify-mcp:skills/coolify",
+        "family_key": "stumason/coolify-mcp:coolify",
+        "aliases": [],
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1079,8 +538,8 @@
     {
       "family_key": "majiayu000/claude-skill-registry:admin-app-coolify",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1091,12 +550,12 @@
         "content_language": "en",
         "github_url": "https://github.com/majiayu000/claude-skill-registry/tree/main/skills/data/admin-app-coolify",
         "skillsmp_url": "https://skillsmp.com/creators/majiayu000/claude-skill-registry/skills-data-admin-app-coolify",
-        "repo_stars": 512,
+        "repo_stars": 539,
         "catalog_updated_at": "2026-04-20T12:49:56+00:00",
         "source_key": "majiayu000/claude-skill-registry:skills/data/admin-app-coolify",
         "family_key": "majiayu000/claude-skill-registry:admin-app-coolify",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1106,8 +565,8 @@
     {
       "family_key": "kovrichard/catalyst:ship-coolify",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1123,7 +582,7 @@
         "source_key": "kovrichard/catalyst:.agents/skills/ship-coolify",
         "family_key": "kovrichard/catalyst:ship-coolify",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1133,8 +592,8 @@
     {
       "family_key": "coollabsio/coolify-docs:adding-service-documentation",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1145,12 +604,12 @@
         "content_language": "en",
         "github_url": "https://github.com/coollabsio/coolify-docs/tree/v4.x/.claude/skills/adding-service-documentation",
         "skillsmp_url": "https://skillsmp.com/creators/coollabsio/coolify-docs/claude-skills-adding-service-documentation",
-        "repo_stars": 369,
+        "repo_stars": 370,
         "catalog_updated_at": "2026-04-27T12:42:04+00:00",
         "source_key": "coollabsio/coolify-docs:.claude/skills/adding-service-documentation",
         "family_key": "coollabsio/coolify-docs:adding-service-documentation",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1160,8 +619,8 @@
     {
       "family_key": "coollabsio/coolify-docs:renaming-services",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1172,12 +631,12 @@
         "content_language": "en",
         "github_url": "https://github.com/coollabsio/coolify-docs/tree/v4.x/.claude/skills/renaming-services",
         "skillsmp_url": "https://skillsmp.com/creators/coollabsio/coolify-docs/claude-skills-renaming-services",
-        "repo_stars": 369,
+        "repo_stars": 370,
         "catalog_updated_at": "2026-04-27T12:42:04+00:00",
         "source_key": "coollabsio/coolify-docs:.claude/skills/renaming-services",
         "family_key": "coollabsio/coolify-docs:renaming-services",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1187,8 +646,8 @@
     {
       "family_key": "pacificstudio/openase:deploy-coolify-review-env",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
@@ -1204,7 +663,7 @@
         "source_key": "pacificstudio/openase:.codex/skills/deploy-coolify-review-env",
         "family_key": "pacificstudio/openase:deploy-coolify-review-env",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"
@@ -1212,53 +671,26 @@
       "requires_source_review": true
     },
     {
-      "family_key": "argentaios/argentos-core:coolify",
+      "family_key": "terminalskills/skills:terminal-skills-planner",
       "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
+        "Coolify GitHub auto deploy webhook",
+        "Coolify verify deployment commit SHA"
       ],
       "skills_sh": null,
       "skillsmp": {
         "source": "skillsmp",
-        "name": "coolify",
-        "author": "ArgentAIOS",
-        "description": "Deploy applications to Coolify (self-hosted on Dell R750). Use the coolify_deploy tool for GitHub -> Coolify provisioning, PostgreSQL/app resources, semfreak.dev domains, and deploy/status operations.",
+        "name": "terminal-skills-planner",
+        "author": "TerminalSkills",
+        "description": "Consult the Terminal Skills agent when a task needs specialized domain expertise you don't have a skill for — deployment platforms (Coolify, Railway, Fly.io), document generation (PDF, Excel, invoices), data pipelines, third-party APIs, marketing ops, design tooling. Call plan_task with the user's task; it returns which proven skills apply, their full instructions, and setup steps. Use BEFORE improvising a specialized workflow from general knowledge.",
         "content_language": "en",
-        "github_url": "https://github.com/ArgentAIOS/argentos-core/tree/main/skills/coolify",
-        "skillsmp_url": "https://skillsmp.com/creators/argentaios/argentos-core/skills-coolify",
-        "repo_stars": 121,
-        "catalog_updated_at": "2026-03-21T16:37:31+00:00",
-        "source_key": "argentaios/argentos-core:skills/coolify",
-        "family_key": "argentaios/argentos-core:coolify",
+        "github_url": "https://github.com/TerminalSkills/skills/tree/main/claude-plugin/skills/skill-planner",
+        "skillsmp_url": "https://skillsmp.com/creators/terminalskills/skills/claude-plugin-skills-skill-planner",
+        "repo_stars": 123,
+        "catalog_updated_at": "2026-07-18T22:18:16+00:00",
+        "source_key": "terminalskills/skills:claude-plugin/skills/skill-planner",
+        "family_key": "terminalskills/skills:terminal-skills-planner",
         "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
-      },
-      "catalogs": [
-        "skillsmp"
-      ],
-      "requires_source_review": true
-    },
-    {
-      "family_key": "imbue-ai/latchkey:latchkey",
-      "queries": [
-        "coolify deploy local repository self hosted vps",
-        "coolify deployment automation custom domain"
-      ],
-      "skills_sh": null,
-      "skillsmp": {
-        "source": "skillsmp",
-        "name": "latchkey",
-        "author": "imbue-ai",
-        "description": "Interact with third-party or self-hosted services (Slack, Google Workspace, Dropbox, GitHub, Linear, Coolify...) using their HTTP APIs on the user's behalf.",
-        "content_language": "en",
-        "github_url": "https://github.com/imbue-ai/latchkey/tree/main/skills/generic/latchkey",
-        "skillsmp_url": "https://skillsmp.com/creators/imbue-ai/latchkey/skills-generic-latchkey",
-        "repo_stars": 121,
-        "catalog_updated_at": "2026-07-22T13:04:14+00:00",
-        "source_key": "imbue-ai/latchkey:skills/generic/latchkey",
-        "family_key": "imbue-ai/latchkey:latchkey",
-        "aliases": [],
-        "query": "coolify deploy local repository self hosted vps"
+        "query": "Coolify GitHub auto deploy webhook"
       },
       "catalogs": [
         "skillsmp"

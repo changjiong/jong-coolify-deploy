@@ -19,11 +19,11 @@
     "evals/output_cases.json"
   ],
   "missing_evidence": [
-    "provider-backed private GitHub App repository deployment",
+    "provider-backed private GitHub App push webhook auto-deployment with post-baseline commit match",
     "provider-backed Docker Compose Service deployment",
     "human blind review",
     "production adoption telemetry",
     "public release and isolated external install"
   ],
-  "claim_boundary": "Provider evidence proves the self-hosted Coolify REST Dockerfile path, terminal deployment polling, logs, TLS, routes, health, and exact-UUID cleanup. It does not prove every source or Service path."
+  "claim_boundary": "Provider evidence proves the self-hosted Coolify REST Dockerfile path, terminal deployment polling, logs, TLS, routes, health, and exact-UUID cleanup. Unit and contract evidence covers auto-deploy configuration and commit-bound webhook matching, but does not prove a live GitHub push webhook run."
 }

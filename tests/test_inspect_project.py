@@ -53,6 +53,12 @@ class InspectProjectTests(unittest.TestCase):
 
             self.assertEqual("service", report["project"]["recommended_resource_type"])
             self.assertEqual("compose", report["project"]["recommended_build_mode"])
+            self.assertEqual(
+                "application", report["project"]["git_auto_deploy_resource_type"]
+            )
+            self.assertEqual(
+                "dockercompose", report["project"]["git_auto_deploy_build_pack"]
+            )
 
     def test_tracked_secret_filename_is_reported_without_reading_value(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
@@ -66,6 +72,28 @@ class InspectProjectTests(unittest.TestCase):
 
             self.assertEqual([".env"], report["security"]["tracked_secret_like_paths"])
             self.assertFalse(report["security"]["secret_values_read"])
+
+    def test_existing_coolify_deploy_workflow_is_reported_without_mutation(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            project = Path(temp)
+            workflows = project / ".github" / "workflows"
+            workflows.mkdir(parents=True)
+            (workflows / "deploy.yml").write_text(
+                "run: curl https://coolify.example.com/api/v1/deploy\n",
+                encoding="utf-8",
+            )
+            (workflows / "test.yml").write_text("run: npm test\n", encoding="utf-8")
+
+            report = inspect_project(project)
+
+            self.assertEqual(
+                [".github/workflows/deploy.yml"],
+                report["git"]["coolify_deploy_workflows"],
+            )
+            self.assertIn(
+                "existing GitHub workflow may already trigger Coolify; avoid duplicate auto-deploy",
+                report["warnings"],
+            )
 
 
 if __name__ == "__main__":
