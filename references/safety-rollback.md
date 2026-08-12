@@ -26,6 +26,7 @@ Allowed by an explicit deployment request:
 - read-only local/Coolify/GitHub/DNS inspection
 - task-scoped deployment files
 - project-scoped Git commits and normal pushes
+- enable native Coolify GitHub App auto-deploy for the named Application and branch
 - creation of the named Coolify project/application/service
 - creation of a private GitHub repository when source publication is necessary and authorized
 - exact-hostname DNS creation when credentials and target domain are in scope
@@ -40,6 +41,7 @@ Require explicit confirmation:
 - force-push, amend, rebase shared history, or remove files
 - expose a database or admin port publicly
 - change shared contracts or persistent data layout
+- create a no-op/empty commit solely to test the webhook
 
 Never:
 
@@ -47,6 +49,7 @@ Never:
 - write secrets to repository files or generated reports
 - use broad destructive commands
 - claim deployment success without terminal state, logs, and a relevant request
+- claim auto-deploy works from an enabled setting, manual deployment, or old deployment record alone
 
 ## Rollback capture
 
@@ -55,6 +58,7 @@ Before updating an existing resource, record:
 - resource UUID and status
 - current source repository/image and branch
 - current deployment/commit
+- current `git_branch`, auto-deploy setting, GitHub App source identity, and deployment-history baseline
 - domain and exposed port
 - current Service Compose text when changing Compose
 - storage mounts
@@ -69,6 +73,7 @@ Secret values may be captured only in memory when an authorized rollback require
 | New deployment files | Revert the scoped commit and redeploy |
 | New application/service | Stop it; delete only with explicit approval |
 | Existing app code | Redeploy the previous source commit or revert commit |
+| Auto-deploy setting/branch | Restore the captured branch and `is_auto_deploy_enabled` value |
 | Existing Service Compose | Restore the captured Compose and redeploy |
 | New environment variable | Remove the new key and redeploy |
 | Overwritten environment variable | Restore the in-memory previous value and redeploy |
@@ -86,5 +91,6 @@ Allowed claims require evidence:
 - “HTTPS works” requires successful TLS validation and HTTP response
 - “persistent” requires an explicit storage mount
 - “backed up” requires a configured backup and successful execution evidence
+- “auto-deploy works” requires a new post-baseline deployment with exact pushed commit, `is_webhook=true`, and `status=finished`
 
 Otherwise state `missing evidence`.

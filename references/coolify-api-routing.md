@@ -32,6 +32,7 @@ python3 scripts/coolify_api.py list-servers
 python3 scripts/coolify_api.py list-projects
 python3 scripts/coolify_api.py list-applications
 python3 scripts/coolify_api.py get-application APP_UUID
+python3 scripts/coolify_api.py list-deployments APP_UUID --take 25
 ```
 
 Fetch detailed data only for exact candidates. Do not dump complete application
@@ -67,6 +68,12 @@ python3 scripts/coolify_api.py create-github \
 Use `create-public` with the same source/build arguments for a genuinely public
 repository.
 
+GitHub App repository Applications created by `create-github` enable
+`is_auto_deploy_enabled` by default. Pass `--no-auto-deploy` only when the user
+explicitly wants manual deployments. `instant_deploy` remains a separate flag:
+it controls the first deployment during creation and does not listen for later
+pushes.
+
 For a minimal Dockerfile application:
 
 ```bash
@@ -84,6 +91,49 @@ Then deploy and wait:
 ```bash
 python3 scripts/coolify_api.py deploy APP_UUID --wait
 ```
+
+## GitHub push auto-deploy
+
+For an existing GitHub-backed Application, configure the native webhook path:
+
+```bash
+python3 scripts/coolify_api.py configure-auto-deploy APP_UUID \
+  --repository https://github.com/OWNER/REPO \
+  --branch main
+```
+
+The command performs read-only preflight before `PATCH /applications/{uuid}`:
+
+- exact repository match
+- Application has a Coolify GitHub App `source_id`
+- source ID matches an accessible GitHub App
+- the App installation can enumerate the exact repository
+
+It updates only `git_branch` and `is_auto_deploy_enabled`, reads the Application
+back, and returns `verification_baseline_id`, the greatest existing deployment
+ID. It does not push code.
+
+After pushing a new real commit, verify the automatic trigger:
+
+```bash
+python3 scripts/coolify_api.py verify-auto-deploy APP_UUID \
+  --repository https://github.com/OWNER/REPO \
+  --branch main \
+  --commit FULL_REMOTE_SHA \
+  --after-id VERIFICATION_BASELINE_ID \
+  --wait-timeout 600
+```
+
+The client polls `GET /deployments/applications/{uuid}`, selects only a record
+newer than the baseline with exact `commit` and `is_webhook=true`, then polls
+`GET /deployments/{deployment_uuid}` to a terminal state. Only `finished`
+passes. Manual/API deployments are rejected as evidence even if their commit
+matches.
+
+Do not pair this native path with a GitHub Actions call to `/deploy`; two
+triggers can enqueue duplicate deployments. If the Application is not connected
+through a Coolify GitHub App, stop and report that integration as a prerequisite
+instead of silently installing a second token-bearing workflow.
 
 ## Environment variables
 
@@ -128,11 +178,15 @@ route them.
 ## Deployment and logs
 
 1. Configure the resource completely.
-2. Trigger `GET /deploy?uuid=RESOURCE_UUID`.
+2. For an initial/manual deployment, trigger `GET /deploy?uuid=RESOURCE_UUID`.
 3. Extract `deployment_uuid`.
 4. Poll `GET /deployments/{deployment_uuid}` to a terminal state.
 5. Read a bounded application/deployment log tail.
 6. Verify the public URL independently.
+
+For automatic deployment verification, do not execute step 2. Capture the
+history baseline before a real GitHub push and wait for the newer webhook record
+as described above.
 
 ## Cleanup and rollback
 

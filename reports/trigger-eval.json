@@ -2,6 +2,7 @@
   "ok": true,
   "threshold": 0.34,
   "description_concepts": [
+    "auto_deploy",
     "coolify",
     "delivery_details",
     "deployment_action",
@@ -10,8 +11,8 @@
   ],
   "missing_description_concepts": [],
   "summary": {
-    "total": 23,
-    "passed": 23,
+    "total": 30,
+    "passed": 30,
     "false_positive": 0,
     "false_negative": 0,
     "pass_rate": 1.0
@@ -161,6 +162,64 @@
           "deployment_action"
         ],
         "negative_pattern": null
+      },
+      {
+        "prompt": "把 Coolify 里的这个 GitHub Application 配置成 main 每次 push 后自动重新部署。",
+        "family": "cn_configure_auto_deploy",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.8,
+        "matched_concepts": [
+          "auto_deploy",
+          "coolify",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "代码已经提交到 GitHub，以后让 Coolify 自动更新，并验证线上 commit。",
+        "family": "cn_auto_deploy_commit_evidence",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "auto_deploy",
+          "coolify",
+          "delivery_details"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "I just pushed a commit; verify that Coolify automatically redeployed the exact commit SHA through its webhook.",
+        "family": "en_verify_auto_deploy",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "auto_deploy",
+          "coolify"
+        ],
+        "negative_pattern": null
+      },
+      {
+        "prompt": "Enable native GitHub push auto-deploy for this self-hosted Coolify application on main.",
+        "family": "en_configure_auto_deploy",
+        "expected_trigger": true,
+        "predicted_trigger": true,
+        "passed": true,
+        "score": 1.0,
+        "matched_concepts": [
+          "auto_deploy",
+          "coolify",
+          "delivery_details",
+          "deployment_action",
+          "self_hosted"
+        ],
+        "negative_pattern": null
       }
     ],
     "should_not_trigger": [
@@ -260,6 +319,33 @@
         "score": 0.0,
         "matched_concepts": [],
         "negative_pattern": null
+      },
+      {
+        "prompt": "只解释 webhook 的工作原理，不要修改 Coolify 或 GitHub 配置。",
+        "family": "webhook_education_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.4,
+        "matched_concepts": [
+          "coolify",
+          "delivery_details"
+        ],
+        "negative_pattern": "只解释 webhook"
+      },
+      {
+        "prompt": "给 Vercel 写一个 GitHub Actions 自动部署工作流。",
+        "family": "vercel_github_actions",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "auto_deploy",
+          "delivery_details",
+          "deployment_action"
+        ],
+        "negative_pattern": "vercel"
       }
     ],
     "near_neighbor": [
@@ -273,7 +359,7 @@
         "matched_concepts": [
           "coolify"
         ],
-        "negative_pattern": null
+        "negative_pattern": "只读不要修改"
       },
       {
         "prompt": "为什么 Coolify 上的 postgres 不健康？只诊断原因。",
@@ -325,6 +411,20 @@
           "local_repo"
         ],
         "negative_pattern": "暂时不执行"
+      },
+      {
+        "prompt": "只读检查 Coolify 的自动部署开关，不要修改或 push。",
+        "family": "auto_deploy_read_only",
+        "expected_trigger": false,
+        "predicted_trigger": false,
+        "passed": true,
+        "score": 0.6,
+        "matched_concepts": [
+          "auto_deploy",
+          "coolify",
+          "deployment_action"
+        ],
+        "negative_pattern": "只读检查"
       }
     ]
   }

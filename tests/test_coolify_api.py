@@ -6,7 +6,16 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.coolify_api import CoolifyClient, credentials, deployment_uuid, redact
+from scripts.coolify_api import (
+    CoolifyApiError,
+    CoolifyClient,
+    build_parser,
+    credentials,
+    deployment_uuid,
+    execute,
+    github_repository_slug,
+    redact,
+)
 
 
 class FakeTransport:
@@ -105,6 +114,7 @@ class CoolifyApiTests(unittest.TestCase):
             domains="https://private.example.com",
             github_app_uuid="github-app-1",
             dockerfile_location="/Dockerfile",
+            auto_deploy_enabled=True,
         )
 
         call = transport.calls[0]
@@ -113,6 +123,251 @@ class CoolifyApiTests(unittest.TestCase):
         self.assertEqual(payload["github_app_uuid"], "github-app-1")
         self.assertEqual(payload["dockerfile_location"], "/Dockerfile")
         self.assertEqual(payload["git_branch"], "main")
+        self.assertTrue(payload["is_auto_deploy_enabled"])
+
+    def test_cli_create_dockerfile_dispatch_keeps_auto_deploy_out_of_payload(self):
+        with tempfile.TemporaryDirectory() as directory:
+            dockerfile = Path(directory) / "Dockerfile"
+            dockerfile.write_text("FROM nginx\n", encoding="utf-8")
+            args = build_parser().parse_args(
+                [
+                    "create-dockerfile",
+                    "--project-uuid",
+                    "project-1",
+                    "--server-uuid",
+                    "server-1",
+                    "--name",
+                    "smoke",
+                    "--dockerfile",
+                    str(dockerfile),
+                ]
+            )
+            transport = FakeTransport([(201, {}, b'{"uuid":"app-1"}')])
+            client = CoolifyClient(
+                "https://coolify.example.com", "token", transport=transport
+            )
+
+            execute(client, args)
+
+        payload = json.loads(transport.calls[0]["data"])
+        self.assertNotIn("is_auto_deploy_enabled", payload)
+
+    def test_cli_create_github_enables_auto_deploy_by_default(self):
+        args = build_parser().parse_args(
+            [
+                "create-github",
+                "--project-uuid",
+                "project-1",
+                "--server-uuid",
+                "server-1",
+                "--github-app-uuid",
+                "github-app-1",
+                "--name",
+                "private-app",
+                "--repository",
+                "https://github.com/acme/private-app",
+                "--branch",
+                "main",
+                "--build-pack",
+                "dockerfile",
+                "--port",
+                "8080",
+            ]
+        )
+        transport = FakeTransport([(201, {}, b'{"uuid":"app-2"}')])
+        client = CoolifyClient(
+            "https://coolify.example.com", "token", transport=transport
+        )
+
+        execute(client, args)
+
+        payload = json.loads(transport.calls[0]["data"])
+        self.assertTrue(payload["is_auto_deploy_enabled"])
+
+    def test_configure_auto_deploy_checks_github_app_and_reads_setting_back(self):
+        application_before = {
+            "uuid": "app-2",
+            "name": "private-app",
+            "git_repository": "https://github.com/acme/private-app.git",
+            "git_branch": "develop",
+            "source_id": 7,
+            "settings": {"is_auto_deploy_enabled": False},
+        }
+        application_after = {
+            **application_before,
+            "git_branch": "main",
+            "settings": {"is_auto_deploy_enabled": True},
+        }
+        github_apps = [{"id": 7, "uuid": "gh-7", "name": "Coolify GitHub"}]
+        repositories = {
+            "repositories": [{"full_name": "acme/private-app"}]
+        }
+        transport = FakeTransport(
+            [
+                (200, {}, json.dumps(application_before).encode()),
+                (200, {}, json.dumps(github_apps).encode()),
+                (200, {}, json.dumps(repositories).encode()),
+                (200, {}, b'{"uuid":"app-2"}'),
+                (200, {}, json.dumps(application_after).encode()),
+                (200, {}, json.dumps(github_apps).encode()),
+                (200, {}, json.dumps(repositories).encode()),
+                (
+                    200,
+                    {},
+                    b'{"count":1,"deployments":[{"id":12,"deployment_uuid":"old"}]}',
+                ),
+            ]
+        )
+        client = CoolifyClient("https://coolify.example.com", "token", transport=transport)
+
+        result = client.configure_auto_deploy(
+            "app-2",
+            repository="acme/private-app",
+            branch="main",
+        )
+
+        self.assertFalse(result["before"]["auto_deploy_enabled"])
+        self.assertTrue(result["after"]["auto_deploy_enabled"])
+        self.assertEqual(result["after"]["configured_branch"], "main")
+        self.assertEqual(result["verification_baseline_id"], 12)
+        patch_call = transport.calls[3]
+        self.assertEqual(patch_call["method"], "PATCH")
+        self.assertTrue(patch_call["url"].endswith("/api/v1/applications/app-2"))
+        self.assertEqual(
+            json.loads(patch_call["data"]),
+            {"git_branch": "main", "is_auto_deploy_enabled": True},
+        )
+
+    def test_configure_auto_deploy_rejects_application_without_github_app(self):
+        transport = FakeTransport(
+            [
+                (
+                    200,
+                    {},
+                    b'{"git_repository":"acme/private-app","source_id":null}',
+                )
+            ]
+        )
+        client = CoolifyClient("https://coolify.example.com", "token", transport=transport)
+
+        with self.assertRaisesRegex(ValueError, "not connected through a Coolify GitHub App"):
+            client.configure_auto_deploy(
+                "app-2",
+                repository="acme/private-app",
+                branch="main",
+            )
+
+        self.assertEqual(len(transport.calls), 1)
+
+    def test_wait_for_webhook_deployment_ignores_manual_match_and_waits_for_webhook(self):
+        commit = "a" * 40
+        manual = {
+            "id": 3,
+            "deployment_uuid": "manual-1",
+            "commit": commit,
+            "status": "finished",
+            "is_webhook": False,
+            "is_api": True,
+        }
+        webhook = {
+            "id": 4,
+            "deployment_uuid": "webhook-1",
+            "application_name": "private-app",
+            "commit": commit,
+            "status": "in_progress",
+            "is_webhook": True,
+            "is_api": False,
+        }
+        finished = {**webhook, "status": "finished"}
+        old_webhook = {
+            "id": 2,
+            "deployment_uuid": "webhook-old",
+            "commit": commit,
+            "status": "finished",
+            "is_webhook": True,
+        }
+        transport = FakeTransport(
+            [
+                (
+                    200,
+                    {},
+                    json.dumps(
+                        {"count": 2, "deployments": [manual, old_webhook]}
+                    ).encode(),
+                ),
+                (
+                    200,
+                    {},
+                    json.dumps({"count": 2, "deployments": [webhook, manual]}).encode(),
+                ),
+                (200, {}, json.dumps(finished).encode()),
+            ]
+        )
+        sleeps = []
+        client = CoolifyClient(
+            "https://coolify.example.com",
+            "token",
+            transport=transport,
+            sleeper=sleeps.append,
+        )
+
+        result = client.wait_for_webhook_deployment(
+            "app-2",
+            commit=commit,
+            after_id=3,
+            timeout=10,
+            interval=0.01,
+        )
+
+        self.assertEqual(result["deployment_uuid"], "webhook-1")
+        self.assertEqual(result["commit"], commit)
+        self.assertTrue(result["is_webhook"])
+        self.assertEqual(sleeps, [0.01])
+        self.assertIn("take=100", transport.calls[0]["url"])
+        self.assertTrue(
+            transport.calls[2]["url"].endswith("/api/v1/deployments/webhook-1")
+        )
+
+    def test_wait_for_webhook_deployment_rejects_failed_terminal_state(self):
+        commit = "b" * 40
+        failed = {
+            "id": 5,
+            "deployment_uuid": "webhook-2",
+            "commit": commit,
+            "status": "failed",
+            "is_webhook": True,
+        }
+        transport = FakeTransport(
+            [
+                (
+                    200,
+                    {},
+                    json.dumps({"count": 1, "deployments": [failed]}).encode(),
+                ),
+                (200, {}, json.dumps(failed).encode()),
+            ]
+        )
+        client = CoolifyClient("https://coolify.example.com", "token", transport=transport)
+
+        with self.assertRaisesRegex(CoolifyApiError, "terminal status failed"):
+            client.wait_for_webhook_deployment(
+                "app-2",
+                commit=commit,
+                after_id=0,
+                timeout=10,
+                interval=0.01,
+            )
+
+    def test_github_repository_slug_accepts_https_ssh_and_short_forms(self):
+        self.assertEqual(
+            github_repository_slug("https://github.com/acme/private-app.git"),
+            "acme/private-app",
+        )
+        self.assertEqual(
+            github_repository_slug("git@github.com:acme/private-app.git"),
+            "acme/private-app",
+        )
+        self.assertEqual(github_repository_slug("acme/private-app"), "acme/private-app")
 
     def test_redaction_masks_secret_values_but_keeps_env_keys(self):
         result = redact(

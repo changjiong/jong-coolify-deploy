@@ -1,82 +1,102 @@
 # Prior-Art Research
 
-- Researched at: 2026-08-06
-- Queries:
-  - `coolify deploy local repository self hosted vps`
-  - `coolify deployment automation custom domain`
-  - `docker compose deploy github self hosted server`
-- Catalogs: skills.sh, SkillsMP, GitHub source, local installed skills
+- Researched at: 2026-08-12
+- Queries: `Coolify GitHub auto deploy webhook`; `Coolify verify deployment commit SHA`
+- Catalogs: skills.sh, SkillsMP, GitHub source, Coolify official API/CLI source
+- Candidate families: 28 after catalog deduplication
+- Catalog failures: none
 - Rating evidence: unavailable
-- Catalog metrics: skills.sh installs are adoption telemetry; GitHub stars are repository attention, not quality ratings
+- Metric semantics: skills.sh installs measure ecosystem adoption; GitHub stars measure repository attention; neither is a rating or correctness signal
 
 ## Shortlist
 
-| Candidate | Relevance | skills.sh installs | GitHub stars | Maintenance/trust evidence | Adopt | Reject | License |
-| --- | --- | ---: | ---: | --- | --- | --- | --- |
-| `qiaomu-website-develop` | End-to-end local repo, GitHub, provider, DNS, HTTPS delivery | missing evidence | 17 | Source inspected; pushed 2026-05-19 | Preflight -> build -> source -> deploy -> domain -> verify | Vercel/Wrangler-specific operations | MIT |
-| Coolify official API | First-party REST control plane | official docs | n/a | Primary source | Instance-domain API, Bearer auth, typed resource endpoints, deployment polling | Product-specific payloads stay in references/scripts | official product documentation |
-| local `coolify-deploy` | Coolify deployment decisions | local only | n/a | Installed local reference | Application/Service choice, persistence, aliases, completion evidence | Narrow troubleshooting details stay in references | license evidence unavailable |
-| `StuMason/coolify-mcp` `coolify` | Exact MCP-first resource hierarchy and tools | 5 | 543 | MIT; pushed 2026-08-05 | MCP-first routing, list/get split, diagnose before act | Broad routine operations are outside this skill trigger | MIT |
-| `joshuadavidthomas/agent-skills` `coolify-compose` | Compose conversion and Coolify variables | missing evidence | 38 | MIT; pushed 2026-07-20 | repository/raw Compose distinction, editable variables, no host HTTP ports | Template metadata not required for private app delivery | MIT |
+| Candidate | Relevance | Adoption/trust signal on 2026-08-12 | Mechanism adopted | Deliberate rejection | License |
+| --- | --- | --- | --- | --- | --- |
+| Coolify official API and CLI | First-party contract for Application settings, GitHub App sources, deployment history and webhook records | Primary source; `coollabsio/coolify` `v4.x` and official CLI inspected | `is_auto_deploy_enabled`, `PATCH /applications/{uuid}`, `GET /deployments/applications/{uuid}`, full commit and terminal-state verification | No private/internal database or UI mutation | Apache-2.0 for source repository |
+| TerminalSkills `coolify` | Most-adopted inspected Coolify candidate and CI/CD contrast | 53 skills.sh installs in the catalog snapshot; repository 128 stars; pushed 2026-07-26 | Explicit deploy API path and token isolation informed the duplicate-trigger threat model | GitHub Actions `/deploy` is not added when native GitHub App webhook is available because two triggers can deploy twice | Apache-2.0 |
+| `jonmumm/skills` `deploy-verify` | Specialist in proving the expected deployed version | 23 skills.sh installs in the catalog snapshot; repository 2 stars; pushed 2026-07-30 | Always reconcile the deployed version with the expected commit | Cloudflare/Wrangler commands and fixed wait heuristics | license evidence unavailable |
+| Hookdeck `github-webhooks` | Trust anchor for generic GitHub webhook handling | 282 skills.sh installs in the catalog snapshot; repository 80 stars; pushed 2026-08-05 | Confirmed that push delivery and provenance matter | Entire handler/signature implementation rejected: Coolify already owns webhook receipt and signature validation | MIT |
 
-## Inspected but rejected as a primary anchor
-
-`ajmcclary/Coolify-Manager` had 416 skills.sh installs and 13 GitHub stars on 2026-08-06. It contributed the “diagnose before operation” pattern, but its WordPress fixes, Coolify CLI installer, direct API fallback, and broad management scope do not match the local-repo-to-VPS delivery job. GitHub did not expose a detected license, while its README claims MIT; license evidence is therefore incomplete.
+The prior package research remains relevant for end-to-end delivery, Compose,
+persistence, DNS/TLS, and rollback. This iteration narrows new research to the
+requested automatic redeployment capability.
 
 ## Keep / Adapt / Reject / Invent
 
 ### Keep
 
-- End-to-end delivery sequence from `qiaomu-website-develop`.
-- Application versus Service and persistence decisions from local `coolify-deploy`.
-- resource hierarchy and bounded diagnostics from `coolify-mcp`.
-- first-party REST endpoints and Bearer authentication from Coolify official API documentation.
-- Compose repository mode, `${VAR}` editability, healthchecks, and Traefik port discipline from `coolify-compose`.
+- Coolify GitHub App as the native repository and webhook integration.
+- First-party Application update and deployment-history APIs.
+- Deployed-version reconciliation from `deploy-verify`.
+- Secret isolation and explicit deployment invocation semantics from TerminalSkills.
 
 ### Adapt
 
-- Replace Vercel/Wrangler provider steps with GitHub + Coolify REST API + self-hosted VPS.
-- Replace generic provider verification with Coolify deployment status, logs, runtime health, DNS, TLS, routes, storage, and internal aliases.
-- Keep DNS automation optional and exact-hostname scoped.
+- Turn generic “verify the deployed version” into an exact evidence tuple:
+  deployment ID newer than a captured baseline, full commit SHA match,
+  `is_webhook=true`, and `status=finished`.
+- Treat `instant_deploy` and continuous auto-deploy as separate controls.
+- Route Git-backed Compose requiring auto-deploy to an Application with
+  `build_pack=dockercompose`; do not claim the same contract for raw Services.
 
 ### Reject
 
-- SSH or host-Docker fallback as a parallel default path.
-- WordPress-specific repair rules.
-- Automatic deletion of conflicting DNS records.
-- Host HTTP port mappings behind Coolify Traefik.
-- Resource reuse by similar name.
-- Compatibility layers between obsolete and current deployment shapes.
+- A second GitHub Actions trigger calling `/api/v1/deploy` when native webhook
+  auto-deploy is configured; duplicate triggers can race and deploy twice.
+- A custom webhook receiver, signature verifier, queue, or replay service.
+- Manual/API redeploy as proof of automatic deployment.
+- An old deployment record with the same commit as proof of the current push.
+- Empty test commits without explicit user approval.
+- Compatibility layers for Applications that are not connected through a
+  Coolify GitHub App; configuration stops with a precise prerequisite instead.
 
 ### Invent
 
-- One natural-language deployment contract spanning local source through runtime evidence.
-- A local inspector that reports resource shape, quality scripts, dirty paths, remote state, and secret-like tracked filenames without reading values.
-- Exact existing-resource identity matching by repo + domain + project/environment.
-- Evidence-bound completion and an explicit rollback capture contract.
-- An API health/authentication gate with no hidden SSH fallback.
-- An optional MCP adapter that must target the same Coolify instance and team.
+- `configure-auto-deploy`: exact repository/source/App-installation preflight,
+  minimal settings update, read-back verification, and history baseline capture.
+- `verify-auto-deploy`: no manual deploy call; it waits for a post-baseline,
+  commit-matching webhook deployment and requires successful terminal state.
+- Project inspection for an existing Coolify GitHub Actions workflow so the
+  operator can resolve a duplicate-trigger risk before enabling native webhook.
+- Failure diagnostics for branch mismatch, App repository permission,
+  `watch_paths`, GitHub webhook delivery, and `[skip ci]`/`[skip cd]` markers.
 
-## Candidate-specific lessons
+## Candidate-Specific Lessons
 
-- `qiaomu-website-develop`: orchestration is easier to trust when each external boundary has a preflight and a final public check. Implemented in `references/deployment-workflow.md`.
-- local `coolify-deploy`: persistence and internal aliases must be explicit, not inferred. Implemented in the resource and networking sections.
-- Coolify official API: use the user's instance origin, Bearer token, typed endpoints, deployment UUID polling, and bounded logs. Implemented in `scripts/coolify_api.py` and `references/coolify-api-routing.md`.
-- `coolify-mcp`: start with summarized reads, diagnose before mutating, and verify after deploy. Retained as an optional adapter in `references/coolify-api-routing.md`.
-- `coolify-compose`: repository mode preserves build contexts and files; editable variables require Coolify-aware syntax. Implemented in the Compose branch of the workflow.
-- `Coolify-Manager`: broad operations and domain-specific troubleshooting make routing noisy. Its scope was deliberately excluded.
+- Coolify official API/CLI: Application settings are flat API fields; source
+  integration is identified through `source_id`; deployment history is stable
+  at `/deployments/applications/{uuid}` and records `commit`/`is_webhook`.
+  Implemented in `scripts/coolify_api.py` and
+  `references/coolify-api-routing.md`.
+- TerminalSkills `coolify`: a deploy API workflow is useful when explicitly
+  requested, but is a conflicting second trigger in this native webhook job.
+  Reflected in duplicate-workflow inspection and safety rules.
+- `deploy-verify`: successful HTTP alone does not prove the intended version is
+  live. Reflected in full-SHA and deployment-source matching.
+- Hookdeck `github-webhooks`: generic handler correctness is valuable when the
+  application owns the endpoint, but Coolify owns this endpoint. Rejecting that
+  layer keeps the system smaller and avoids handling webhook secrets locally.
 
-## Created skill advantages
+## Created Skill Advantages
 
-- **Design advantage:** one bounded workflow owns the complete local repo -> GitHub -> Coolify VPS -> verified URL job.
-- **Design advantage:** the package separates orchestration, API routing, safety/rollback, deterministic inspection, provider smoke testing, and verification.
-- **Validated advantage:** trigger evaluation passes 23/23 recorded trigger cases.
-- **Hypothesis:** the inspector and evidence contract should reduce wrong-resource reuse and false completion claims, but provider-backed comparison is missing evidence.
+- **Design advantage:** automatic deployment is a separate verified lifecycle,
+  not an alias for `instant_deploy` or manual redeploy.
+- **Design advantage:** source preflight, settings mutation, baseline capture,
+  GitHub push, deployment provenance, commit reconciliation, and public health
+  are distinct gates.
+- **Validated advantage:** 30/30 trigger cases pass, including automatic-deploy
+  configuration/verification and read-only/explanation boundaries.
+- **Validated advantage:** 22 unit tests pass; tests reject manual deployments,
+  pre-baseline records, missing GitHub App sources, and failed webhook terminal
+  states.
+- **Hypothesis:** the post-baseline provenance tuple should reduce false claims
+  that auto-deploy works, but a real GitHub push -> Coolify webhook provider run
+  remains missing evidence.
 
-## Missing evidence
+## Missing Evidence
 
-- Public user ratings/reviews for candidates
-- Provider-backed A/B deployment runs
+- Provider-backed private GitHub App push webhook run for this new workflow
+- Comparative A/B outcome against inspected candidate skills
 - Human blind review
 - Production adoption telemetry
-- Public Release and isolated external installation
+- Public Release and isolated external installation for version 0.3.0

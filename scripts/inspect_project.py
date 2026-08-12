@@ -35,6 +35,12 @@ SECRET_NAMES = {
     "id_ed25519",
 }
 SAFE_SECRET_EXAMPLES = (".example", ".sample", ".template", ".dist")
+WORKFLOW_SUFFIXES = {".yml", ".yaml"}
+COOLIFY_DEPLOY_MARKERS = (
+    "/api/v1/deploy",
+    "coolify deploy",
+    "coolify-deploy",
+)
 
 
 def run_git(project: Path, *args: str) -> subprocess.CompletedProcess[str]:
@@ -103,6 +109,23 @@ def package_manager(project: Path) -> str | None:
     return None
 
 
+def coolify_deploy_workflows(project: Path) -> list[str]:
+    workflows = project / ".github" / "workflows"
+    if not workflows.is_dir():
+        return []
+    matches: list[str] = []
+    for path in sorted(workflows.iterdir()):
+        if not path.is_file() or path.suffix.lower() not in WORKFLOW_SUFFIXES:
+            continue
+        try:
+            content = path.read_text(encoding="utf-8", errors="replace").lower()
+        except OSError:
+            continue
+        if any(marker in content for marker in COOLIFY_DEPLOY_MARKERS):
+            matches.append(path.relative_to(project).as_posix())
+    return matches
+
+
 def inspect_project(project: Path) -> dict[str, Any]:
     project = project.expanduser().resolve()
     if not project.is_dir():
@@ -121,6 +144,7 @@ def inspect_project(project: Path) -> dict[str, Any]:
     gates = [name for name in ("test", "lint", "typecheck", "build") if name in scripts]
     remote = git_value(project, "remote", "get-url", "origin") if git_repo else None
     secret_paths = tracked_secret_paths(project, git_repo)
+    deploy_workflows = coolify_deploy_workflows(project)
 
     warnings: list[str] = []
     if dirty_paths:
@@ -129,6 +153,10 @@ def inspect_project(project: Path) -> dict[str, Any]:
         warnings.append("origin remote is missing")
     if secret_paths:
         warnings.append("tracked filenames may contain secrets")
+    if deploy_workflows:
+        warnings.append(
+            "existing GitHub workflow may already trigger Coolify; avoid duplicate auto-deploy"
+        )
     if not dockerfile and not compose_file and not package.get("exists"):
         warnings.append("no Dockerfile, Compose file, or package.json detected")
 
@@ -140,6 +168,7 @@ def inspect_project(project: Path) -> dict[str, Any]:
             "commit": git_value(project, "rev-parse", "HEAD") if git_repo else None,
             "origin": remote,
             "dirty_paths": dirty_paths,
+            "coolify_deploy_workflows": deploy_workflows,
         },
         "project": {
             "package_name": package.get("name"),
@@ -149,6 +178,10 @@ def inspect_project(project: Path) -> dict[str, Any]:
             "dockerfile": dockerfile,
             "compose_file": compose_file,
             "recommended_resource_type": "service" if compose_file else "application",
+            "git_auto_deploy_resource_type": "application",
+            "git_auto_deploy_build_pack": (
+                "dockercompose" if compose_file else None
+            ),
             "recommended_build_mode": (
                 "compose"
                 if compose_file

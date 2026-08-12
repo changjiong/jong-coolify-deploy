@@ -53,6 +53,25 @@
       "域名",
       "环境变量",
       "健康检查"
+    ],
+    "auto_deploy": [
+      "auto-deploy",
+      "automatic redeploy",
+      "automatically redeployed",
+      "push auto-deploy",
+      "自动重新部署",
+      "自动部署",
+      "自动更新",
+      "push 后自动"
+    ],
+    "deployment_evidence": [
+      "commit SHA",
+      "commit match",
+      "commit-bound",
+      "is_webhook",
+      "部署 commit",
+      "线上 commit",
+      "验证线上"
     ]
   },
   "negative_patterns": [
@@ -71,7 +90,10 @@
     "发布说明",
     "新闻摘要",
     "规划未来",
-    "generic ssh"
+    "generic ssh",
+    "只解释 webhook",
+    "只读不要修改",
+    "只读检查"
   ],
   "should_trigger": [
     {
@@ -113,6 +135,22 @@
     {
       "text": "Publish this app end to end: local checks, GitHub, Coolify, DNS, TLS, and deployment logs.",
       "family": "en_full_delivery"
+    },
+    {
+      "text": "把 Coolify 里的这个 GitHub Application 配置成 main 每次 push 后自动重新部署。",
+      "family": "cn_configure_auto_deploy"
+    },
+    {
+      "text": "代码已经提交到 GitHub，以后让 Coolify 自动更新，并验证线上 commit。",
+      "family": "cn_auto_deploy_commit_evidence"
+    },
+    {
+      "text": "I just pushed a commit; verify that Coolify automatically redeployed the exact commit SHA through its webhook.",
+      "family": "en_verify_auto_deploy"
+    },
+    {
+      "text": "Enable native GitHub push auto-deploy for this self-hosted Coolify application on main.",
+      "family": "en_configure_auto_deploy"
     }
   ],
   "should_not_trigger": [
@@ -147,6 +185,14 @@
     {
       "text": "Design a generic CI/CD architecture for Kubernetes.",
       "family": "architecture_only"
+    },
+    {
+      "text": "只解释 webhook 的工作原理，不要修改 Coolify 或 GitHub 配置。",
+      "family": "webhook_education_only"
+    },
+    {
+      "text": "给 Vercel 写一个 GitHub Actions 自动部署工作流。",
+      "family": "vercel_github_actions"
     }
   ],
   "near_neighbor": [
@@ -169,6 +215,10 @@
     {
       "text": "给这个项目规划未来的发布流程，暂时不执行。",
       "family": "deployment_planning"
+    },
+    {
+      "text": "只读检查 Coolify 的自动部署开关，不要修改或 push。",
+      "family": "auto_deploy_read_only"
     }
   ]
 }

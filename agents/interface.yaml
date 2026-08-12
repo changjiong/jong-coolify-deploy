@@ -1,6 +1,6 @@
 interface:
   display_name: "Jong Coolify Deploy"
-  short_description: "Deploy a local Git repository to a self-hosted Coolify VPS end to end"
+  short_description: "Deploy a Git repository to Coolify and verify GitHub push auto-deploy"
   default_prompt: >
     Use $jong-coolify-deploy to deliver the current or named local repository
     to my self-hosted Coolify VPS. Inspect the repo and unrelated changes,
@@ -9,15 +9,22 @@ interface:
     relevant source changes, choose Application versus Service, configure
     masked editable environment variables, persistence, health checks, domains
     and internal reachability, deploy to a terminal state, and verify logs,
-    DNS, TLS, health and routes. Coolify MCP is optional.
+    DNS, TLS, health and routes. For GitHub-backed Applications, configure the
+    native Coolify GitHub App push webhook, capture a deployment-history
+    baseline, and accept auto-deploy only when a newer successful webhook
+    deployment matches the pushed full commit SHA. Never use manual deploy as
+    auto-deploy evidence or add a duplicate GitHub Actions trigger. Coolify MCP is optional.
     Never reveal secrets or delete resources, volumes, DNS records, or Git
     history without explicit approval. Return the URL, source commit, Coolify
-    resource, verification evidence, rollback boundary and missing evidence.
+    resource, auto-deploy configuration and commit-bound verification evidence,
+    rollback boundary and missing evidence.
   examples:
     - "把当前项目部署到我的 Coolify，域名用 risk.example.com"
     - "把这个 Docker Compose 项目一键发布到自有 VPS"
     - "本地没有 remote，创建私有 GitHub 仓库并部署到 Coolify"
     - "环境变量要在 Coolify UI 可编辑，数据卷需要持久化"
+    - "配置 main 分支 push 后自动部署，并验证线上 commit"
+    - "Verify that this GitHub push automatically redeploys the Coolify Application"
     - "Deploy this local repo to my self-hosted Coolify VPS and verify HTTPS"
 
 compatibility:
@@ -42,7 +49,7 @@ compatibility:
     network: "GitHub, configured Coolify instance, target application domains, and optional DNS provider"
     file_write: "deployment-related files in the target repository and this skill package only"
     subprocess: "git, gh, repository-defined quality commands, bundled API, inspection, smoke, and verification scripts"
-    remote_write: "project-scoped GitHub/Coolify/DNS writes required by an explicit deployment request"
+    remote_write: "project-scoped GitHub/Coolify/DNS writes and native auto-deploy settings required by an explicit deployment request"
     interactive: "only when authentication or a destructive-conflict decision requires the user"
   degradation:
     api_unavailable: "stop remote writes, report the Coolify API health or authentication blocker, and keep local inspection results"
@@ -61,9 +68,11 @@ gates:
     - "exact server/project/environment/resource identity"
     - "masked environment-variable handling"
     - "explicit persistence and healthcheck decision"
+    - "GitHub App repository access and exact auto-deploy branch"
   completion:
     - "terminal deployment status"
     - "deployment logs checked"
     - "DNS and TLS verified"
     - "health and representative routes verified"
+    - "when auto-deploy is requested: post-baseline webhook deployment matches the pushed full commit SHA"
     - "rollback boundary reported"
